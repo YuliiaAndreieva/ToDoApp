@@ -3,8 +3,8 @@
 namespace ToDoApp.API.Contracts.Requests.Task;
 
 public record GetPagedUserTasksRequest(
-    List<int> categoryIds,
-    string? searchTerm,
-    int page = 1,
-    int pageSize = 10
+    List<int> CategoryIds,
+    string? SearchTerm,
+    int Page = 1,
+    int PageSize = 10
     );

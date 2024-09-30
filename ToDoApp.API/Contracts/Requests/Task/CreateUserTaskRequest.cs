@@ -1,7 +1,8 @@
 ﻿namespace ToDoApp.API.Contracts.Requests.Task;
 
-public record CreateTaskRequest(
+public record CreateUserTaskRequest(
     string Name,
     DateTime DueDate,
-    string Description
+    string Description,
+    List<int> CategoryIds 
     );

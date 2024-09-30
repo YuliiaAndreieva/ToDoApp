@@ -41,7 +41,7 @@ public class UserTaskService : IUserTaskService
 
     public async Task<ErrorOr<UserTaskDto>> AddCategoriesAsync(UserTaskCategoriesDto dto)
     {
-        var result = await _taskRepository.AddCategoriesAsync(dto.TaskId, dto.CategoriesIds);
+        var result = await _taskRepository.AddCategoriesAsync(dto.TaskId, dto.CategoryIds);
 
         return result.IsError ? result.Errors : result.Value.ToDto();
     }

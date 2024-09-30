@@ -1,9 +1,9 @@
 ﻿namespace ToDoApp.API.Contracts.Responses.Task;
 
 public record PagedUserTasksResponse(
-    int page,
-    int pageSize,
-    bool hasPreviousPage,
-    bool hasNextPage,
-    List<UserTaskShortResponse> userTasks
+    int Page,
+    int PageSize,
+    bool HasPreviousPage,
+    bool HasNextPage,
+    List<UserTaskShortResponse> UserTasks
     );

@@ -42,10 +42,10 @@ public static class RequestsMapping
     {
         return new PagedUserTasksDto()
         {
-            CategoryIds = getPagedTasksRequest.categoryIds,
-            Page = getPagedTasksRequest.page,
-            PageSize = getPagedTasksRequest.pageSize,
-            SearchString = getPagedTasksRequest.searchTerm,
+            CategoryIds = getPagedTasksRequest.CategoryIds,
+            Page = getPagedTasksRequest.Page,
+            PageSize = getPagedTasksRequest.PageSize,
+            SearchString = getPagedTasksRequest.SearchTerm,
             Items =  new List<UserTaskDto>()
         };
     }
@@ -57,7 +57,7 @@ public static class RequestsMapping
         return new UserTaskCategoriesDto()
         {
             TaskId = taskId,
-            CategoriesIds = request.categoryIds
+            CategoryIds = request.CategoryIds
         };
     }
 }

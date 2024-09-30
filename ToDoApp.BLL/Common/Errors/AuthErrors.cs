@@ -4,12 +4,13 @@ namespace ToDoApp.BLL.Common.Errors;
 
 public static class AuthErrors
 {
-    public static Error UserAlreadyExist = Error.Custom(
+    public static readonly Error UserAlreadyExist = Error.Custom(
         type: CustomErrorTypes.UserAlreadyExists,
         code: "User.AlreadyExists",
-        description: "A user with this email already exists.");
+        description: "A user with this email already exists."
+        );
     
-    public static Error UserCreationFailed => Error.Custom(
+    public static readonly Error UserCreationFailed = Error.Custom(
         type: CustomErrorTypes.UserCreationFailed,
         code: "User.CreationFailed",
         description: "An error occurred while creating the user. Please try again later."
