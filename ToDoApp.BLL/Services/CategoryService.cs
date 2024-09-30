@@ -29,15 +29,9 @@ public class CategoryService : ICategoryService
         {
             return validationResult.ToValidationErrors<CategoryDto>();
         }
-
-        try
-        {
-            var result = await _categoryRepository.AddCategoryAsync(categoryDto.ToEntity());
-            return result.Value.ToDto();
-        }
-        catch
-        {
-            return Error.Failure();
-        }
+        
+        var result = await _categoryRepository.AddCategoryAsync(categoryDto.ToEntity());
+        
+        return result.IsError ? result.Errors : result.Value.ToDto();
     }
 }

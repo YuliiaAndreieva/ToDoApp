@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using ToDoApp.BLL.Configuration.Settings;
+using ToDoApp.BLL.Helpers;
 using ToDoApp.BLL.Services;
 using ToDoApp.BLL.Services.Interfaces;
 using ToDoApp.DAL.Data;
@@ -55,7 +56,7 @@ public static class RegistrationExtensions
             {
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateIssuer = true,
+                ValidateIssuer = false,
                 ValidateAudience = false,
                 RequireExpirationTime = false,
                 ValidateLifetime = true
@@ -67,8 +68,9 @@ public static class RegistrationExtensions
         this IServiceCollection serviceCollection)
     {
         serviceCollection.AddScoped<IAuthService, AuthService>();
-        serviceCollection.AddScoped<ITaskService, TaskService>();
+        serviceCollection.AddScoped<IUserTaskService, UserTaskService>();
         serviceCollection.AddScoped<ICategoryService, CategoryService>();
         serviceCollection.AddScoped<IJwtTokenService, JwtTokenService>();
+        serviceCollection.AddScoped<ICurrentUserService, CurrentUserService>();
     }
 }

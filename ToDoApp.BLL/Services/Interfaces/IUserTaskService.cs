@@ -1,14 +1,12 @@
-﻿using ToDoApp.BLL.DTOs;
+﻿using ErrorOr;
+using ToDoApp.BLL.DTOs;
 using ToDoApp.BLL.DTOs.Task;
-using ToDoApp.DAL.Entities;
 
 namespace ToDoApp.BLL.Services.Interfaces;
 
-public interface ITaskService
+public interface IUserTaskService
 {
-    Task<PagedList<UserTaskDto>> GetTasksAsync(
-        int pageNumber,
-        int pageSize,
-        string? searchTerm,
-        List<int>? categoryIds);
+    Task<PagedList<UserTaskDto>> GetTasksAsync(PagedUserTasksDto getPagedTasksDto);
+
+    Task<ErrorOr<UserTaskDto>> AddCategoriesAsync(UserTaskCategoriesDto dto);
 }

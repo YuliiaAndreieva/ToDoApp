@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ToDoApp.BLL\ToDoApp.BLL.csproj" />
-  </ItemGroup>
 
+  </ItemGroup>
+  
 </Project>

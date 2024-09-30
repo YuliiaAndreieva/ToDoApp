@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ToDoApp.API.Contracts.Requests.Task;
 using ToDoApp.API.Mapping;
 using ToDoApp.BLL.Services.Interfaces;
@@ -6,11 +7,12 @@ using ToDoApp.BLL.Services.Interfaces;
 namespace ToDoApp.API.Controllers;
 
 [ApiController]
-public class TaskController : ControllerBase
+[Authorize]
+public class UserTaskController : ControllerBase
 {
     private readonly IUserTaskService _taskService;
 
-    public TaskController(
+    public UserTaskController(
         IUserTaskService taskService)
     {
         _taskService = taskService;
@@ -24,11 +26,14 @@ public class TaskController : ControllerBase
         return Ok(tasks.ToResponse());
     }
     
-    [HttpPost("tasks/{id}/category")]
-    public async Task<IActionResult> AddCategory([FromQuery] AddCategoriesRequest request)
+    [HttpPost("tasks/{id}/categories")]
+    public async Task<IActionResult> AddCategory([FromQuery] AddCategoriesRequest request, int id)
     {
-        //var tasks = await _taskService.GetTasksAsync(request.ToDto());
+        var result = await _taskService.AddCategoriesAsync(request.ToDto(id));
     
-        return Ok();
+        return result.Match<IActionResult>(
+            userTask => Ok(userTask), 
+            errors => Problem(errors.ToResponse()) 
+        );
     }
 }

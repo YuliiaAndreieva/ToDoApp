@@ -17,6 +17,8 @@ builder.Services.AddJwtSettings(builder.Configuration);
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     {
         options.SignIn.RequireConfirmedAccount = false;
+        options.SignIn.RequireConfirmedEmail = false;  
+        options.Tokens.AuthenticatorTokenProvider = null;
     })
     .AddEntityFrameworkStores<ToDoAppDbContext>();
 
@@ -34,4 +36,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+
 app.Run();
