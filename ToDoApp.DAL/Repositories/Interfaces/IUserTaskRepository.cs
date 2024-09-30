@@ -15,4 +15,8 @@ public interface IUserTaskRepository
     Task<ErrorOr<UserTask>> AddCategoriesAsync(
         int taskId, 
         List<int> categoryIds);
+
+    Task<ErrorOr<UserTask>> CreateUserTask(
+        UserTask userTask,
+        List<int>? categoryIds);
 }

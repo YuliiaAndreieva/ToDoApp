@@ -8,5 +8,7 @@ public interface IUserTaskService
 {
     Task<PagedList<UserTaskDto>> GetTasksAsync(PagedUserTasksDto getPagedTasksDto);
 
-    Task<ErrorOr<UserTaskDto>> AddCategoriesAsync(UserTaskCategoriesDto dto);
+    Task<ErrorOr<UserTaskDto>> AddCategoriesAsync(UserTaskCategoriesDto userTaskCategoriesDto);
+
+    Task<ErrorOr<UserTaskDto>> CreateUserTaskAsync(CreateUserTaskDto createUserTaskDto);
 }

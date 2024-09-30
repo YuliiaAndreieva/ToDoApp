@@ -1,9 +1,10 @@
-﻿using ToDoApp.BLL.DTOs.Task;
+﻿using Microsoft.VisualBasic;
+using ToDoApp.BLL.DTOs.Task;
 using ToDoApp.DAL.Entities;
 
 namespace ToDoApp.BLL.Mapping;
 
-public static class TaskMapping
+public static class UserTaskMapping
 {
     public static List<UserTaskDto> ToListDtos(
         this List<UserTask> userTasks)
@@ -22,6 +23,18 @@ public static class TaskMapping
             DueDate = task.DueDate,
             IsDone = task.isDone,
             CategoryDtos= task.Categories?.Select(c => c.ToDto()).ToList()
+        };
+    }
+
+    public static UserTask ToEntity(
+        this CreateUserTaskDto dto)
+    {
+        return new UserTask()
+        {
+            Name = dto.Name,
+            Description = dto.Description,
+            DueDate = dto.DueDate,
+            isDone = false
         };
     }
 }

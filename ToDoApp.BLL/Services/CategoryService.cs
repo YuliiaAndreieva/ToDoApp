@@ -27,7 +27,7 @@ public class CategoryService : ICategoryService
         var validationResult = await _createCategoryValidator.ValidateAsync(categoryDto);
         if (!validationResult.IsValid)
         {
-            return validationResult.ToValidationErrors<CategoryDto>();
+            return validationResult.ToErrorOr<CategoryDto>();
         }
         
         var result = await _categoryRepository.AddCategoryAsync(categoryDto.ToEntity());

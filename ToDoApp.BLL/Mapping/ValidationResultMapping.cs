@@ -5,7 +5,7 @@ namespace ToDoApp.BLL.Mapping;
 
 public static class ValidationResultMapping
 {
-    public static ErrorOr<TResult> ToValidationErrors<TResult>(this ValidationResult validationResult)
+    public static ErrorOr<TResult> ToErrorOr<TResult>(this ValidationResult validationResult)
     {
         return validationResult.Errors.ConvertAll(vf => Error.Validation(vf.PropertyName, vf.ErrorMessage));
     }

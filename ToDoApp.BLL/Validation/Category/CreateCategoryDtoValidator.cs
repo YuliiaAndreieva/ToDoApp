@@ -9,7 +9,9 @@ public class CreateCategoryDtoValidator : AbstractValidator<CreateCategoryDto>
     {
         RuleFor(c => c.Name)
             .NotNull()
-            .NotEmpty()
-            .Length(3, 20);
+            .MinimumLength(3)
+            .WithMessage("The name must be longer")
+            .MaximumLength(20)
+            .WithMessage("The name must be shorter ");
     }
 }

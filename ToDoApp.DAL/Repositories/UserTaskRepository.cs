@@ -15,6 +15,13 @@ public class UserTaskRepository : IUserTaskRepository
     {
         _context = context;
     }
+    
+    private async Task<UserTask?> FindUserTaskByIdAsync(int taskId)
+    {
+        return await _context.UserTasks
+            .Include(ut => ut.Categories)
+            .FirstOrDefaultAsync(ut => ut.Id == taskId);
+    }
 
     public async Task<List<UserTask>> GetPagedTasksAsync(int pageNumber, int pageSize, List<int>? categoryIds, string? searchTerm, string userId)
     {
@@ -40,13 +47,16 @@ public class UserTaskRepository : IUserTaskRepository
 
     public async Task<ErrorOr<UserTask>> AddCategoriesAsync(int taskId, List<int> categoryIds)
     {
-        var userTask = await _context.UserTasks
-            .Include(ut => ut.Categories)
-            .FirstOrDefaultAsync(ut => ut.Id == taskId);
+        var userTask = await FindUserTaskByIdAsync(taskId);
         
         if (userTask is null)
             return Error.NotFound();
 
+        return await AddCategoriesAsync(userTask, categoryIds);
+    }
+
+    public async Task<ErrorOr<UserTask>> AddCategoriesAsync(UserTask userTask, List<int> categoryIds)
+    {
         var categoriesToAdd = _context.Categories
             .Where(c => categoryIds.Contains(c.Id));
         
@@ -55,6 +65,21 @@ public class UserTaskRepository : IUserTaskRepository
         
         userTask.Categories.AddRange(categoriesToAdd);
 
+        return await SaveChangesOrReturnAsync(userTask);
+    }
+
+    public async Task<ErrorOr<UserTask>> CreateUserTask(UserTask userTask, List<int>? categoryIds)
+    {
+        _context.UserTasks.Add(userTask);
+        
+        if(categoryIds is not null)
+            return await AddCategoriesAsync(userTask, categoryIds);
+        
+        return await SaveChangesOrReturnAsync(userTask);
+    }
+    
+    private async Task<ErrorOr<UserTask>> SaveChangesOrReturnAsync(UserTask userTask)
+    {
         try
         {
             await _context.SaveChangesAsync();

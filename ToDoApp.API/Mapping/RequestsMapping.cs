@@ -60,4 +60,17 @@ public static class RequestsMapping
             CategoryIds = request.CategoryIds
         };
     }
+
+    public static CreateUserTaskDto ToDto(
+        this CreateUserTaskRequest request)
+    {
+        return new CreateUserTaskDto()
+        {
+            Name = request.Name,
+            Description = request.Description,
+            DueDate = request.DueDate,
+            CategoryIds= request.CategoryIds
+        };
+    }
+    
 }

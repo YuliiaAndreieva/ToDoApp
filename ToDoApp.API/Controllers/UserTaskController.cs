@@ -7,7 +7,7 @@ using ToDoApp.BLL.Services.Interfaces;
 namespace ToDoApp.API.Controllers;
 
 [ApiController]
-[Authorize]
+//[Authorize]
 public class UserTaskController : ControllerBase
 {
     private readonly IUserTaskService _taskService;
@@ -35,5 +35,13 @@ public class UserTaskController : ControllerBase
             userTask => Ok(userTask), 
             errors => Problem(errors.ToResponse()) 
         );
+    }
+    
+    [HttpPost("tasks")]
+    public async Task<IActionResult> CreateUserTask([FromQuery] CreateUserTaskRequest request)
+    {
+        var task = await _taskService.CreateUserTaskAsync(request.ToDto());
+    
+        return Ok(task);
     }
 }

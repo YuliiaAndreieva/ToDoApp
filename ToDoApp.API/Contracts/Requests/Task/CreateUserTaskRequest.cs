@@ -4,5 +4,5 @@ public record CreateUserTaskRequest(
     string Name,
     DateTime DueDate,
     string Description,
-    List<int> CategoryIds 
+    List<int>? CategoryIds 
     );
