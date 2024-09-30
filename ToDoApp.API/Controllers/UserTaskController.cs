@@ -7,7 +7,7 @@ using ToDoApp.BLL.Services.Interfaces;
 namespace ToDoApp.API.Controllers;
 
 [ApiController]
-//[Authorize]
+[Authorize]
 public class UserTaskController : ControllerBase
 {
     private readonly IUserTaskService _taskService;
@@ -40,8 +40,22 @@ public class UserTaskController : ControllerBase
     [HttpPost("tasks")]
     public async Task<IActionResult> CreateUserTask([FromQuery] CreateUserTaskRequest request)
     {
-        var task = await _taskService.CreateUserTaskAsync(request.ToDto());
+        var result = await _taskService.CreateUserTaskAsync(request.ToDto());
     
-        return Ok(task);
+        return result.Match<IActionResult>(
+            userTask => Ok(userTask), 
+            errors => Problem(errors.ToResponse()) 
+        );
+    }
+    
+    [HttpPost("tasks/{id}")]
+    public async Task<IActionResult> DeleteUserTask(int id)
+    {
+        var result = await _taskService.DeleteUserTaskAsync(id);
+    
+        return result.Match<IActionResult>(
+            deleted => NoContent(), 
+            errors => Problem(errors.ToResponse()) 
+        );
     }
 }

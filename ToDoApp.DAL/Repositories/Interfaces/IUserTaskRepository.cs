@@ -19,4 +19,7 @@ public interface IUserTaskRepository
     Task<ErrorOr<UserTask>> CreateUserTask(
         UserTask userTask,
         List<int>? categoryIds);
+
+    Task<ErrorOr<Deleted>> DeleteUserTask(
+        int id);
 }

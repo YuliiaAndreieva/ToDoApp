@@ -72,5 +72,4 @@ public static class RequestsMapping
             CategoryIds= request.CategoryIds
         };
     }
-    
 }

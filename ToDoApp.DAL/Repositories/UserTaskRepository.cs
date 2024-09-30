@@ -19,14 +19,13 @@ public class UserTaskRepository : IUserTaskRepository
     private async Task<UserTask?> FindUserTaskByIdAsync(int taskId)
     {
         return await _context.UserTasks
-            .Include(ut => ut.Categories)
             .FirstOrDefaultAsync(ut => ut.Id == taskId);
     }
 
     public async Task<List<UserTask>> GetPagedTasksAsync(int pageNumber, int pageSize, List<int>? categoryIds, string? searchTerm, string userId)
     {
         var query = _context.UserTasks
-             .Where(ut => ut.UserId == userId && ut.Categories.Any(c => categoryIds.Contains(c.Id)))
+             .Where(ut => ut.Categories != null && ut.UserId == userId && ut.Categories.Any(c => categoryIds.Contains(c.Id)))
              .Include(c=>c.Categories)
              .AsQueryable();
 
@@ -47,7 +46,9 @@ public class UserTaskRepository : IUserTaskRepository
 
     public async Task<ErrorOr<UserTask>> AddCategoriesAsync(int taskId, List<int> categoryIds)
     {
-        var userTask = await FindUserTaskByIdAsync(taskId);
+        var userTask = await _context.UserTasks
+            .Include(ut => ut.Categories)
+            .FirstOrDefaultAsync(ut => ut.Id == taskId);
         
         if (userTask is null)
             return Error.NotFound();
@@ -70,7 +71,7 @@ public class UserTaskRepository : IUserTaskRepository
 
     public async Task<ErrorOr<UserTask>> CreateUserTask(UserTask userTask, List<int>? categoryIds)
     {
-        _context.UserTasks.Add(userTask);
+        await _context.UserTasks.AddAsync(userTask);
         
         if(categoryIds is not null)
             return await AddCategoriesAsync(userTask, categoryIds);
@@ -90,4 +91,25 @@ public class UserTaskRepository : IUserTaskRepository
             return Error.Failure();
         }
     }
+    
+    public async Task<ErrorOr<Deleted>> DeleteUserTask(int id)
+    {
+        var userTask = await FindUserTaskByIdAsync(id);
+
+        if (userTask is null)
+            return Error.NotFound();
+        
+        _context.UserTasks.Remove(userTask);
+
+        try
+        {
+            await _context.SaveChangesAsync();
+            return Result.Deleted;
+        }
+        catch
+        {
+            return Error.Failure();
+        }
+    }
+
 }

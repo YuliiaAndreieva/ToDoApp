@@ -1,7 +1,6 @@
 ﻿using ErrorOr;
 using FluentValidation;
 using ToDoApp.BLL.DTOs;
-using ToDoApp.BLL.DTOs.Category;
 using ToDoApp.BLL.DTOs.Task;
 using ToDoApp.BLL.Helpers;
 using ToDoApp.BLL.Mapping;
@@ -40,7 +39,6 @@ public class UserTaskService : IUserTaskService
             );
 
         pagedTasksDto.Items = taskList.ToListDtos();
-
         return pagedTasksDto;
     }
 
@@ -60,10 +58,16 @@ public class UserTaskService : IUserTaskService
         }
         
         var userTaskEntity = dto.ToEntity();
-        //userTaskEntity.UserId = _currentUserService.UserId;
-        userTaskEntity.UserId = "1646b8b7-3436-4a0a-b6f2-a997161ed735";
+        userTaskEntity.UserId = _currentUserService.UserId;
+        
         var result = await _taskRepository.CreateUserTask(userTaskEntity, dto.CategoryIds);
 
         return result.IsError ? result.Errors : result.Value.ToDto();
+    }
+    
+    public async Task<ErrorOr<Deleted>> DeleteUserTaskAsync(int id)
+    {
+        var result = await _taskRepository.DeleteUserTask(id);
+        return result;
     }
 }
