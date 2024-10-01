@@ -3,6 +3,6 @@
 public record CreateUserTaskRequest(
     string Name,
     DateTime DueDate,
-    string Description,
+    string? Description,
     List<int>? CategoryIds 
     );

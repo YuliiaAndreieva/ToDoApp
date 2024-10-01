@@ -28,9 +28,8 @@ public class JwtTokenService : IJwtTokenService
         {
             Subject = new ClaimsIdentity(new []
             {
-                new Claim("Id", user.Id),
-                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim("id", user.Id),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             }),
             Expires = DateTime.UtcNow.AddHours(4),

@@ -19,8 +19,7 @@ public class BaseUserTaskDtoValidator : AbstractValidator<BaseUserTaskDto>
             .GreaterThanOrEqualTo(DateTime.Now.AddDays(-1))
             .WithMessage("The due date must be from yesterday or later.");
         
-        RuleFor(c => c.Description)
-            .NotNull()
+        RuleFor(us => us.Description)
             .MinimumLength(3)
             .WithMessage("The description must be longer")
             .MaximumLength(150)

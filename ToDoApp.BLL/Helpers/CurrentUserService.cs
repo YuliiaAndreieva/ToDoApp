@@ -21,7 +21,7 @@ public class CurrentUserService : ICurrentUserService
         {
             if (!_init)
             {
-                _userId = _httpContextAccessor.HttpContext?.User?.FindFirstValue(JwtRegisteredClaimNames.Sub);
+                _userId = _httpContextAccessor.HttpContext?.User?.FindFirstValue("id");
                 _init = true;
             }
             return _userId;

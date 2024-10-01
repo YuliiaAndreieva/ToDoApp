@@ -3,6 +3,6 @@
 public record UpdateUserTaskRequest(
     string Name,
     DateTime DueDate,
-    string Description,
+    string? Description,
     bool IsDone
     );
