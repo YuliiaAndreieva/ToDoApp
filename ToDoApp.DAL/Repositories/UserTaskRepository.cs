@@ -111,5 +111,35 @@ public class UserTaskRepository : IUserTaskRepository
             return Error.Failure();
         }
     }
+    
+    public async Task<ErrorOr<UserTask>> UpdateUserTaskAsync(UserTask updatedUserTask)
+    {
+        var userTask = await FindUserTaskByIdAsync(updatedUserTask.Id);
+
+        if (userTask is null)
+            return Error.NotFound();
+
+        UpdateUserTaskProperties(userTask, updatedUserTask);
+
+        try
+        {
+            await _context.SaveChangesAsync();
+            return userTask;
+        }
+        catch
+        {
+            return Error.Failure();
+        }
+    }
+
+    private static void UpdateUserTaskProperties(
+        UserTask oldUserTask,
+        UserTask updatedUserTask)
+    {
+        oldUserTask.Name = updatedUserTask.Name;
+        oldUserTask.Description = updatedUserTask.Description;
+        oldUserTask.DueDate = updatedUserTask.DueDate;
+        oldUserTask.isDone = updatedUserTask.isDone;
+    }
 
 }

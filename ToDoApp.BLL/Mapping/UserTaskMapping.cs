@@ -37,4 +37,16 @@ public static class UserTaskMapping
             isDone = false
         };
     }
+    public static UserTask ToEntity(
+        this UpdateUserTaskDto dto)
+    {
+        return new UserTask()
+        {
+            Id = dto.Id,
+            Name = dto.Name,
+            Description = dto.Description,
+            DueDate = dto.DueDate,
+            isDone = dto.IsDone
+        };
+    }
 }

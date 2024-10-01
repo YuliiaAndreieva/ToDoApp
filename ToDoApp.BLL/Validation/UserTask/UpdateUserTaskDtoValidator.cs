@@ -3,9 +3,9 @@ using ToDoApp.BLL.DTOs.Task;
 
 namespace ToDoApp.BLL.Validation.UserTask;
 
-public class CreateUserTaskDtoValidator : AbstractValidator<CreateUserTaskDto>
+public class UpdateUserTaskDtoValidator : AbstractValidator<UpdateUserTaskDto>
 {
-    public CreateUserTaskDtoValidator()
+    public UpdateUserTaskDtoValidator()
     {
         Include(new BaseUserTaskDtoValidator());
     }

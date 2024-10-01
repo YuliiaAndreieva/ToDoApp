@@ -22,4 +22,7 @@ public interface IUserTaskRepository
 
     Task<ErrorOr<Deleted>> DeleteUserTask(
         int id);
+
+    Task<ErrorOr<UserTask>> UpdateUserTaskAsync(
+        UserTask updatedUserTask);
 }

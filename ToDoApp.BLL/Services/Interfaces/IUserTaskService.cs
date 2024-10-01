@@ -13,4 +13,6 @@ public interface IUserTaskService
     Task<ErrorOr<UserTaskDto>> CreateUserTaskAsync(CreateUserTaskDto createUserTaskDto);
     
     Task<ErrorOr<Deleted>> DeleteUserTaskAsync(int id);
+
+    Task<ErrorOr<Updated>> UpdateUserTaskAsync(UpdateUserTaskDto dto);
 }

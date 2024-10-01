@@ -58,4 +58,16 @@ public class UserTaskController : ControllerBase
             errors => Problem(errors.ToResponse()) 
         );
     }
+    
+    [HttpPut("tasks/{id}")]
+    public async Task<IActionResult> UpdateUserTask([FromQuery] UpdateUserTaskRequest request, int id)
+    {
+        var dto = (id, request).ToDto();
+        var result = await _taskService.UpdateUserTaskAsync(dto);
+    
+        return result.Match<IActionResult>(
+            deleted => NoContent(), 
+            errors => Problem(errors.ToResponse()) 
+        );
+    }
 }

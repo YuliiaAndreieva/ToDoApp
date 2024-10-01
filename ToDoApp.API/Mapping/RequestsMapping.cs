@@ -72,4 +72,17 @@ public static class RequestsMapping
             CategoryIds= request.CategoryIds
         };
     }
+    
+    public static UpdateUserTaskDto ToDto(
+        this (int Id, UpdateUserTaskRequest Request) tuple)
+    {
+        return new ()
+        {
+            Id = tuple.Id,
+            Name = tuple.Request.Name,
+            Description = tuple.Request.Description,
+            DueDate = tuple.Request.DueDate,
+            IsDone = tuple.Request.IsDone
+        };
+    }
 }

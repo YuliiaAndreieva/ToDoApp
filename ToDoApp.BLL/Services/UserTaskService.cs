@@ -14,15 +14,18 @@ public class UserTaskService : IUserTaskService
     private readonly IUserTaskRepository _taskRepository;
     private readonly ICurrentUserService _currentUserService;
     private readonly IValidator<CreateUserTaskDto> _createUserTaskValidator;
+    private readonly IValidator<UpdateUserTaskDto> _updateUserTaskValidator;
 
     public UserTaskService(
         IUserTaskRepository taskRepository,
         ICurrentUserService currentUserService,
-        IValidator<CreateUserTaskDto> createUserTaskValidator)
+        IValidator<CreateUserTaskDto> createUserTaskValidator,
+        IValidator<UpdateUserTaskDto> updateUserTaskValidator)
     {
         _taskRepository = taskRepository;
         _currentUserService = currentUserService;
         _createUserTaskValidator = createUserTaskValidator;
+        _updateUserTaskValidator = updateUserTaskValidator;
     }
 
     public async Task<PagedList<UserTaskDto>> GetTasksAsync(
@@ -69,5 +72,18 @@ public class UserTaskService : IUserTaskService
     {
         var result = await _taskRepository.DeleteUserTask(id);
         return result;
+    }
+    
+    public async Task<ErrorOr<Updated>> UpdateUserTaskAsync(UpdateUserTaskDto dto)
+    {
+        var validationResult = await _updateUserTaskValidator.ValidateAsync(dto);
+        if (!validationResult.IsValid)
+        {
+            return validationResult.ToErrorOr<Updated>();
+        }
+        
+        var result = await _taskRepository.UpdateUserTaskAsync(dto.ToEntity());
+
+        return result.IsError ? result.Errors : Result.Updated;
     }
 }
