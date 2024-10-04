@@ -18,14 +18,14 @@ export class HeaderComponent {
   ) {
     this.isLoggedIn = authService.isAuthenticated();
   }
-
-  onLogin() {
-    this.router.navigate(['/login']);
+  ngOnInit() {
+    this.authService.isAuthenticated$.subscribe((isAuthenticated) => {
+      this.isLoggedIn = isAuthenticated;
+    });
   }
 
   onLogout() {
-    this.isLoggedIn = false;
     this.authService.logout();
-    this.router.navigate(['/']);
+    this.router.navigate(['/login']);
   }
 }

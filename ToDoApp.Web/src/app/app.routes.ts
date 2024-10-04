@@ -10,11 +10,12 @@ export const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/login',
+    redirectTo: '/task-list',
     pathMatch: 'full',
   },
   {
     path: 'task-list',
     component: TaskListComponent,
+    canActivate: [AuthGuard],
   },
 ];

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { UserAuthModel } from '../../models/user/user.auth.model';
 import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ButtonComponent } from '../../shared/buttons/button/button.component';
 
 @Component({
@@ -14,12 +14,16 @@ import { ButtonComponent } from '../../shared/buttons/button/button.component';
 export class LoginComponent {
   loginData: UserAuthModel = { email: '', password: '' };
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+  ) {}
 
   onLogin() {
     this.authService.login(this.loginData).subscribe(
       (response) => {
         console.log('Login successful', response);
+        this.router.navigate(['/task-list']);
       },
       (error) => {
         console.error('Login failed', error);
