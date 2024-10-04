@@ -1,1 +1,64 @@
-<p>task-list works!</p>
+<div class="task-list flex-grow overflow-auto min-h-screen p-6 bg-gray-50">
+  <div class="mb-4">
+    <label for="search" class="block text-gray-700 font-bold mb-2">Search Tasks:</label>
+    <input
+      id="search"
+      type="text"
+      [(ngModel)]="searchTerm"
+      (input)="onSearchChange()"
+      placeholder="Enter task name or description"
+      class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+    />
+  </div>
+
+  <div class="mb-4">
+    <label class="block text-gray-700 font-bold mb-2">Apply filter:</label>
+    <div class="relative">
+      <div class="border border-gray-300 rounded-lg p-2 cursor-pointer" (click)="toggleDropdown()">
+        <div class="flex flex-wrap gap-2">
+        <span *ngFor="let selected of selectedCategories" class="bg-blue-100 text-blue-600 rounded px-2 py-1 text-xs">
+          {{ selected.name }}
+          <button (click)="removeCategory(selected); loadTasks()" class="ml-1 text-red-500">×</button>
+        </span>
+        </div>
+        <span *ngIf="selectedCategories.length === 0" class="text-gray-400">Select categories</span>
+      </div>
+
+      <div *ngIf="isDropdownOpen" class="absolute mt-2 bg-white border border-gray-300 rounded-lg shadow-lg w-full max-h-60 overflow-auto">
+        <ul>
+          <li *ngFor="let category of availableCategories" class="p-2 hover:bg-gray-100 cursor-pointer" (click)="selectCategory(category)">
+            {{ category.name }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+  <div *ngIf="tasks.length > 0; else noTasksTemplate">
+    <ul class="space-y-2">
+      <li
+        *ngFor="let task of tasks"
+        class="task-item p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition duration-200 ease-in-out"
+      >
+        <h3 class="font-bold text-lg">{{ task.name }}</h3>
+        <p class="text-sm text-gray-600"><strong>Due:</strong> {{ task.dueDate }}</p>
+        <p class="text-sm"><strong>Status:</strong> <span [ngClass]="task.isDone ? 'text-green-500' : 'text-red-500'">
+          {{ task.isDone ? 'Done' : 'Not Done' }}
+        </span></p>
+      </li>
+    </ul>
+    <app-pagination
+      [totalCount]="pagination.totalCount"
+      [pageSize]="pagination.pageSize"
+      [currentPage]="pagination.currentPage"
+      [hasNextPage]="pagination.hasNextPage"
+      [hasPreviousPage]="pagination.hasPreviousPage"
+      (pageChange)="onPageChange($event)">
+    ></app-pagination>
+  </div>
+
+  <ng-template #noTasksTemplate>
+    <p class="text-center text-gray-500">No tasks found</p>
+  </ng-template>
+</div>

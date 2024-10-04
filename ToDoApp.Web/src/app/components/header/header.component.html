@@ -1,1 +1,23 @@
-<p>header works!</p>
+<header class="bg-blue-500 py-2 shadow-md">
+  <div class=" flex items-center justify-between">
+    <div class="text-lg font-bold text-white">
+      <a routerLink="/">ToDoApp</a>
+    </div>
+    <div>
+      <button
+        *ngIf="!isLoggedIn"
+        routerLink="/login"
+        class="rounded border-blue-500 bg-white px-6 py-2 font-semibold text-blue-500 hover:bg-gray-200"
+      >
+        Log in
+      </button>
+      <button
+        *ngIf="isLoggedIn"
+        (click)="onLogout()"
+        class="rounded border-blue-500 bg-white px-6 py-2 font-semibold text-blue-500 hover:bg-gray-200"
+      >
+        Log out
+      </button>
+    </div>
+  </div>
+</header>

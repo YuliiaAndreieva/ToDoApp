@@ -8,9 +8,10 @@ public class PagedList<T>
 
     public int PageSize { get; set; }
 
-    public int TotalCount => Items.Count;
+    public int TotalCount { get; set; }
 
     public bool HasNextPage => Page * PageSize < TotalCount;
 
     public bool HasPreviousPage => Page > 1;
+    
 }

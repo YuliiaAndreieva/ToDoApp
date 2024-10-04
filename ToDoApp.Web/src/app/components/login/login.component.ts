@@ -1,17 +1,18 @@
 import { Component } from '@angular/core';
-import { UserModel } from '../../models/user.model';
+import { UserAuthModel } from '../../models/user/user.auth.model';
 import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { ButtonComponent } from '../../shared/buttons/button/button.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, ButtonComponent],
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
-  loginData: UserModel = { email: '', password: '' };
+  loginData: UserAuthModel = { email: '', password: '' };
 
   constructor(private authService: AuthService) {}
 
