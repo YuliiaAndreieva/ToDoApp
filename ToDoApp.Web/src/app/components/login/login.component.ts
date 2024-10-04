@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { UserAuthModel } from '../../models/user/user.auth.model';
 import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { ButtonComponent } from '../../shared/buttons/button/button.component';
+import { UserAuthModel } from '../../models/user/user.auth.model';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +20,7 @@ export class LoginComponent {
   ) {}
 
   onLogin() {
-    this.authService.login(this.loginData).subscribe(
+    this.authService.authenticate(this.loginData, false).subscribe(
       (response) => {
         console.log('Login successful', response);
         this.router.navigate(['/task-list']);

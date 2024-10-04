@@ -6,7 +6,7 @@ namespace ToDoApp.BLL.Mapping;
 public static class UserMapping
 {
     public static IdentityUser ToIdentityUser(
-        this RegisterRequestDto dto)
+        this AuthRequestDto dto)
     {
         return new IdentityUser()
         {

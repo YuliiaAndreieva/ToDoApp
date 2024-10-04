@@ -1,7 +1,8 @@
 ﻿using ErrorOr;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
+using ToDoApp.API.Contracts.Requests.Auth;
 using ToDoApp.API.Mapping;
+using ToDoApp.BLL.DTOs.Auth;
 using ToDoApp.BLL.Services.Interfaces;
 
 namespace ToDoApp.API.Controllers;
@@ -10,24 +11,21 @@ namespace ToDoApp.API.Controllers;
 [Route("api/auth")]
 public class AuthController : ControllerBase
 {
-    private readonly ILogger<AuthController> _logger;
     private readonly IAuthService _authService;
 
     public AuthController(
-        ILogger<AuthController> logger,
         IAuthService authService)
     {
-        _logger = logger;
         _authService = authService;
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] RegisterRequest registerRequest)
+    public async Task<IActionResult> Register([FromBody] AuthRequest registerRequest)
     {
         if (!ModelState.IsValid)
             return BadRequest(Error.Validation());
 
-        var result = await _authService.Register(registerRequest.ToRegisterRequestDto());
+        var result = await _authService.Register(registerRequest.ToAuthRequestDto());
 
         return result.Match<IActionResult>(
             userDto => Created($"/user/{userDto.Email}", userDto), 
@@ -36,12 +34,12 @@ public class AuthController : ControllerBase
     }
     
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
+    public async Task<IActionResult> Login([FromBody] AuthRequest loginRequest)
     {
         if (!ModelState.IsValid)
             return BadRequest(Error.Validation());
 
-        var result = await _authService.Login(loginRequest.ToLoginRequestDto());
+        var result = await _authService.Login(loginRequest.ToAuthRequestDto());
 
         return result.Match<IActionResult>(
             userDto => Ok(userDto), 

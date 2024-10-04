@@ -14,13 +14,9 @@ export class AuthService {
   public isAuthenticated$ = this.authenticatedSubject.asObservable();
   constructor(private http: HttpClient) {}
 
-  register(registerData: UserAuthModel): Observable<any> {
-    const body = { registerData };
-    return this.http.post(API_URLS.AUTH.REGISTER, body);
-  }
-
-  login(loginData: UserAuthModel): Observable<any> {
-    return this.http.post(API_URLS.AUTH.LOGIN, loginData).pipe(
+  authenticate(authData: UserAuthModel, isRegister: boolean): Observable<any> {
+    const url = isRegister ? API_URLS.AUTH.REGISTER : API_URLS.AUTH.LOGIN;
+    return this.http.post(url, authData).pipe(
       map((response: any) => {
         if (response.token) {
           localStorage.setItem('token', response.token);

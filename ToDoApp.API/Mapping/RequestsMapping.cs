@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.Data;
+using ToDoApp.API.Contracts.Requests.Auth;
 using ToDoApp.API.Contracts.Requests.Category;
 using ToDoApp.API.Contracts.Requests.Task;
 using ToDoApp.BLL.DTOs.Auth;
@@ -9,23 +10,14 @@ namespace ToDoApp.API.Mapping;
 
 public static class RequestsMapping
 {
-    public static RegisterRequestDto ToRegisterRequestDto(
-        this RegisterRequest registerRequest)
+    public static AuthRequestDto ToAuthRequestDto(
+        this AuthRequest authRequest)
     {
-        return new RegisterRequestDto(
-            Name: registerRequest.Email,
-            Email: registerRequest.Email,
-            Password: registerRequest.Password
-        );
-    }
-    
-    public static LoginRequestDto ToLoginRequestDto(
-        this LoginRequest loginRequest)
-    {
-        return new LoginRequestDto(
-            Email: loginRequest.Email,
-            Password: loginRequest.Password
-        );
+        return new AuthRequestDto()
+        {
+            Email = authRequest.Email,
+            Password = authRequest.Password
+        };
     }
 
     public static CreateCategoryDto ToDto(

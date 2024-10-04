@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { NgIf } from '@angular/common';
@@ -9,7 +9,7 @@ import { NgIf } from '@angular/common';
   imports: [RouterLink, NgIf],
   templateUrl: './header.component.html',
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   isLoggedIn = false;
 
   constructor(
@@ -18,6 +18,7 @@ export class HeaderComponent {
   ) {
     this.isLoggedIn = authService.isAuthenticated();
   }
+
   ngOnInit() {
     this.authService.isAuthenticated$.subscribe((isAuthenticated) => {
       this.isLoggedIn = isAuthenticated;

@@ -6,7 +6,7 @@ namespace ToDoApp.BLL.Services.Interfaces;
 
 public interface IAuthService
 {
-    Task<ErrorOr<UserDto>> Register(RegisterRequestDto requestDto);
+    Task<ErrorOr<AuthResultDto>> Register(AuthRequestDto requestDto);
 
-    Task<ErrorOr<UserLoginDto>> Login(LoginRequestDto requestDto);
+    Task<ErrorOr<AuthResultDto>> Login(AuthRequestDto requestDto);
 }

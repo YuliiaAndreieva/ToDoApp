@@ -20,7 +20,7 @@ public class AuthService : IAuthService
         _tokenService = tokenService;
     }
 
-    public async Task<ErrorOr<UserDto>> Register(RegisterRequestDto requestDto)
+    public async Task<ErrorOr<AuthResultDto>> Register(AuthRequestDto requestDto)
     {
         var existingUser = await _userManager.FindByEmailAsync(requestDto.Email);
         if (existingUser is not null)
@@ -29,16 +29,19 @@ public class AuthService : IAuthService
         }
 
         var newUser = requestDto.ToIdentityUser();
-        var result = await _userManager.CreateAsync(newUser, requestDto.Password);
+        var identityResult = await _userManager.CreateAsync(newUser, requestDto.Password);
 
-        if (!result.Succeeded)
-        {
+        if (!identityResult.Succeeded)
             return AuthErrors.UserCreationFailed;
-        }
-        return newUser.ToUserDto();
+        
+        return new AuthResultDto()
+        {
+            Email = newUser.Email, 
+            Token =  _tokenService.GenerateJwtToken(newUser)
+        };
     }
 
-    public async Task<ErrorOr<UserLoginDto>> Login(LoginRequestDto requestDto)
+    public async Task<ErrorOr<AuthResultDto>> Login(AuthRequestDto requestDto)
     {
         var user = await _userManager.FindByEmailAsync(requestDto.Email);
         if (user is null)
@@ -47,10 +50,11 @@ public class AuthService : IAuthService
         var passwordCorrect = await _userManager.CheckPasswordAsync(user, requestDto.Password);
         if (!passwordCorrect)
             return AuthErrors.InvalidCredentials;
-
-        var jwtToken = _tokenService.GenerateJwtToken(user);
-        var userDto = new UserLoginDto() { Name = user.NormalizedUserName, Token = jwtToken };
-
-        return userDto;
+        
+        return  new AuthResultDto()
+        {
+            Email = user.Email, 
+            Token =  _tokenService.GenerateJwtToken(user)
+        };
     }
 }
