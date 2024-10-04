@@ -1,10 +1,9 @@
-﻿using System.Runtime.InteropServices.JavaScript;
-
+﻿
 namespace ToDoApp.API.Contracts.Requests.Task;
 
 public record GetPagedUserTasksRequest(
-    List<int> CategoryIds,
+    List<int>? CategoryIds,
     string? SearchTerm,
     int Page = 1,
-    int PageSize = 10
+    int PageSize = 3
     );

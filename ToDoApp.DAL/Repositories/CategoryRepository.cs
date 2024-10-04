@@ -1,4 +1,5 @@
 ﻿using ErrorOr;
+using Microsoft.EntityFrameworkCore;
 using ToDoApp.DAL.Data;
 using ToDoApp.DAL.Entities;
 using ToDoApp.DAL.Repositories.Interfaces;
@@ -27,5 +28,12 @@ public class CategoryRepository : ICategoryRepository
         {
             return Error.Failure();
         }
+    }
+
+    public async Task<List<Category>> GetCategoriesAsync(string userId)
+    {
+       return await _context.Categories
+            .Where(c => c.Tasks.Any(t => t.UserId == userId))
+            .ToListAsync();
     }
 }

@@ -1,8 +1,10 @@
 ﻿using ErrorOr;
 using Microsoft.EntityFrameworkCore;
+using ToDoApp.DAL.Common;
 using ToDoApp.DAL.Data;
 using ToDoApp.DAL.Entities;
 using ToDoApp.DAL.Repositories.Interfaces;
+using ToDoApp.DAL.Specifications;
 
 namespace ToDoApp.DAL.Repositories;
 
@@ -22,28 +24,6 @@ public class UserTaskRepository : IUserTaskRepository
             .FirstOrDefaultAsync(ut => ut.Id == taskId);
     }
 
-    public async Task<List<UserTask>> GetPagedTasksAsync(int pageNumber, int pageSize, List<int>? categoryIds, string? searchTerm, string userId)
-    {
-        var query = _context.UserTasks
-             .Where(ut => ut.Categories != null && ut.UserId == userId && ut.Categories.Any(c => categoryIds.Contains(c.Id)))
-             .Include(c=>c.Categories)
-             .AsQueryable();
-
-        
-        if (!string.IsNullOrEmpty(searchTerm))
-        {
-            query = query.Where(t => t.Name.Contains(searchTerm) || t.Description.Contains(searchTerm));
-            var result = query.ToList();
-        }
-        
-        var tasks = await query
-            .Skip((pageNumber - 1) * pageSize)
-            .Take(pageSize)
-            .ToListAsync();
-
-        return tasks;
-    }
-
     public async Task<ErrorOr<UserTask>> AddCategoriesAsync(int taskId, List<int> categoryIds)
     {
         var userTask = await _context.UserTasks
@@ -56,7 +36,7 @@ public class UserTaskRepository : IUserTaskRepository
         return await AddCategoriesAsync(userTask, categoryIds);
     }
 
-    public async Task<ErrorOr<UserTask>> AddCategoriesAsync(UserTask userTask, List<int> categoryIds)
+    private async Task<ErrorOr<UserTask>> AddCategoriesAsync(UserTask userTask, List<int> categoryIds)
     {
         var categoriesToAdd = _context.Categories
             .Where(c => categoryIds.Contains(c.Id));
@@ -139,7 +119,26 @@ public class UserTaskRepository : IUserTaskRepository
         oldUserTask.Name = updatedUserTask.Name;
         oldUserTask.Description = updatedUserTask.Description;
         oldUserTask.DueDate = updatedUserTask.DueDate;
-        oldUserTask.isDone = updatedUserTask.isDone;
+        oldUserTask.IsDone = updatedUserTask.IsDone;
     }
-
+    
+    public async Task<PagedList<UserTask>> GetPagedTasksAsync(Specification<UserTask> specification, int page, int pageSize)
+    {
+        var query = _context.UserTasks
+            .Include(us=>us.Categories)
+            .AsQueryable();
+        
+        if (specification is not null)
+        {
+            query = query.Where(specification.ToExpression());
+        }
+        
+        var pagedTasks = await query.Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+        
+        var totalCount = await query.CountAsync();
+        
+        return new PagedList<UserTask>(pagedTasks, page, pageSize, totalCount);
+    }
 }

@@ -18,15 +18,15 @@ public class UserTaskController : ControllerBase
         _taskService = taskService;
     }
 
-    [HttpGet("tasks")]
+    [HttpGet("api/tasks")]
     public async Task<IActionResult> GetTasks([FromQuery] GetPagedUserTasksRequest request)
     {
         var tasks = await _taskService.GetTasksAsync(request.ToDto());
     
-        return Ok(tasks.ToResponse());
+        return Ok(tasks);
     }
     
-    [HttpPost("tasks/{id}/categories")]
+    [HttpPost("api/tasks/{id}/categories")]
     public async Task<IActionResult> AddCategory([FromQuery] AddCategoriesRequest request, int id)
     {
         var result = await _taskService.AddCategoriesAsync(request.ToDto(id));
@@ -37,7 +37,7 @@ public class UserTaskController : ControllerBase
         );
     }
     
-    [HttpPost("tasks")]
+    [HttpPost("api/tasks")]
     public async Task<IActionResult> CreateUserTask([FromQuery] CreateUserTaskRequest request)
     {
         var result = await _taskService.CreateUserTaskAsync(request.ToDto());
@@ -48,7 +48,7 @@ public class UserTaskController : ControllerBase
         );
     }
     
-    [HttpPost("tasks/{id}")]
+    [HttpPost("api/tasks/{id}")]
     public async Task<IActionResult> DeleteUserTask(int id)
     {
         var result = await _taskService.DeleteUserTaskAsync(id);
@@ -59,7 +59,7 @@ public class UserTaskController : ControllerBase
         );
     }
     
-    [HttpPut("tasks/{id}")]
+    [HttpPut("api/tasks/{id}")]
     public async Task<IActionResult> UpdateUserTask([FromQuery] UpdateUserTaskRequest request, int id)
     {
         var dto = (id, request).ToDto();

@@ -1,12 +1,12 @@
 ﻿using ErrorOr;
-using ToDoApp.BLL.DTOs;
 using ToDoApp.BLL.DTOs.Task;
+using ToDoApp.DAL.Common;
 
 namespace ToDoApp.BLL.Services.Interfaces;
 
 public interface IUserTaskService
 {
-    Task<PagedList<UserTaskDto>> GetTasksAsync(PagedUserTasksDto getPagedTasksDto);
+    Task<PagedList<UserTaskDto>> GetTasksAsync(PagedUserTasksRequestDto getPagedTasksDto);
 
     Task<ErrorOr<UserTaskDto>> AddCategoriesAsync(UserTaskCategoriesDto userTaskCategoriesDto);
 

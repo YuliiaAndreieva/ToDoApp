@@ -1,7 +1,7 @@
-﻿using System.Runtime.InteropServices.JavaScript;
-using ErrorOr;
+﻿using ErrorOr;
 using FluentValidation;
 using ToDoApp.BLL.DTOs.Category;
+using ToDoApp.BLL.Helpers;
 using ToDoApp.BLL.Mapping;
 using ToDoApp.BLL.Services.Interfaces;
 using ToDoApp.DAL.Repositories.Interfaces;
@@ -10,15 +10,18 @@ namespace ToDoApp.BLL.Services;
 
 public class CategoryService : ICategoryService
 {
+    private readonly ICurrentUserService _currentUserService;
     private readonly IValidator<CreateCategoryDto> _createCategoryValidator;
     private readonly ICategoryRepository _categoryRepository;
 
     public CategoryService(
         IValidator<CreateCategoryDto> createCategoryValidator,
-        ICategoryRepository categoryRepository)
+        ICategoryRepository categoryRepository,
+        ICurrentUserService currentUserService)
     {
         _createCategoryValidator = createCategoryValidator;
         _categoryRepository = categoryRepository;
+        _currentUserService = currentUserService;
     }
 
     public async Task<ErrorOr<CategoryDto>> CreateCategoryAsync(
@@ -33,5 +36,11 @@ public class CategoryService : ICategoryService
         var result = await _categoryRepository.AddCategoryAsync(categoryDto.ToEntity());
         
         return result.IsError ? result.Errors : result.Value.ToDto();
+    }
+    
+    public async Task<List<CategoryDto>> GetCategoriesAsync()
+    {
+        var categories = await _categoryRepository.GetCategoriesAsync(_currentUserService.UserId);
+        return categories.ToListDtos();
     }
 }

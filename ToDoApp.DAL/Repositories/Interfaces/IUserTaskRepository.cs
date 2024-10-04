@@ -1,17 +1,12 @@
 ﻿using ErrorOr;
+using ToDoApp.DAL.Common;
 using ToDoApp.DAL.Entities;
+using ToDoApp.DAL.Specifications;
 
 namespace ToDoApp.DAL.Repositories.Interfaces;
 
 public interface IUserTaskRepository
 {
-    Task<List<UserTask>> GetPagedTasksAsync(
-        int pageNumber,
-        int pageSize,
-        List<int> categoryIds,
-        string userId,
-        string? searchTerm);
-
     Task<ErrorOr<UserTask>> AddCategoriesAsync(
         int taskId, 
         List<int> categoryIds);
@@ -25,4 +20,9 @@ public interface IUserTaskRepository
 
     Task<ErrorOr<UserTask>> UpdateUserTaskAsync(
         UserTask updatedUserTask);
+
+    Task<PagedList<UserTask>> GetPagedTasksAsync(
+        Specification<UserTask> specification,
+        int page,
+        int pageSize);
 }

@@ -23,4 +23,10 @@ public static class CategoryMapping
             Name = category.Name
         };
     }
+    
+    public static List<CategoryDto> ToListDtos(
+        this List<Category> categories)
+    {
+        return categories.Select(category => category.ToDto()).ToList();
+    }
 }

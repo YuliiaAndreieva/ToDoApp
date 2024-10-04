@@ -37,16 +37,15 @@ public static class RequestsMapping
         };
     }
     
-    public static PagedUserTasksDto ToDto(
+    public static PagedUserTasksRequestDto ToDto(
         this GetPagedUserTasksRequest getPagedTasksRequest)
     {
-        return new PagedUserTasksDto()
+        return new PagedUserTasksRequestDto()
         {
             CategoryIds = getPagedTasksRequest.CategoryIds,
-            Page = getPagedTasksRequest.Page,
             PageSize = getPagedTasksRequest.PageSize,
-            SearchString = getPagedTasksRequest.SearchTerm,
-            Items =  new List<UserTaskDto>()
+            Page = getPagedTasksRequest.Page,
+            SearchTerm = getPagedTasksRequest.SearchTerm
         };
     }
 

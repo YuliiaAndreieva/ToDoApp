@@ -16,7 +16,7 @@ public class UserTask
     
     public DateTime DueDate { get; set; }
     
-    public bool isDone { get; set; }
+    public bool IsDone { get; set; }
 
     public List<Category>? Categories { get; set; }
 }

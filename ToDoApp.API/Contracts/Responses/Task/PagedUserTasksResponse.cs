@@ -5,5 +5,6 @@ public record PagedUserTasksResponse(
     int PageSize,
     bool HasPreviousPage,
     bool HasNextPage,
+    int TotalCount,
     List<UserTaskShortResponse> UserTasks
     );

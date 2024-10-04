@@ -28,4 +28,11 @@ public class CategoryController : Controller
             errors => Problem(errors.ToResponse()) 
         );
     }
+    
+    [HttpGet("api/categories")]
+    public async Task<IActionResult> GetCategories()
+    {
+        var result = await _categoryService.GetCategoriesAsync();
+        return Ok(result);
+    }
 }

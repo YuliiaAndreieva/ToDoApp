@@ -2,6 +2,7 @@
 using ToDoApp.BLL.DTOs;
 using ToDoApp.BLL.DTOs.Category;
 using ToDoApp.BLL.DTOs.Task;
+using ToDoApp.DAL.Common;
 
 namespace ToDoApp.API.Mapping;
 
@@ -15,6 +16,7 @@ public static class ResponsesMapping
             pagedList.PageSize,
             pagedList.HasPreviousPage,
             pagedList.HasNextPage,
+            pagedList.TotalCount,
             pagedList.Items.ToResponse()
         );
     }

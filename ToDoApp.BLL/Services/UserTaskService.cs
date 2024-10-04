@@ -1,11 +1,13 @@
 ﻿using ErrorOr;
 using FluentValidation;
-using ToDoApp.BLL.DTOs;
 using ToDoApp.BLL.DTOs.Task;
 using ToDoApp.BLL.Helpers;
 using ToDoApp.BLL.Mapping;
 using ToDoApp.BLL.Services.Interfaces;
+using ToDoApp.DAL.Common;
+using ToDoApp.DAL.Entities;
 using ToDoApp.DAL.Repositories.Interfaces;
+using ToDoApp.DAL.Specifications;
 
 namespace ToDoApp.BLL.Services;
 
@@ -15,6 +17,7 @@ public class UserTaskService : IUserTaskService
     private readonly ICurrentUserService _currentUserService;
     private readonly IValidator<CreateUserTaskDto> _createUserTaskValidator;
     private readonly IValidator<UpdateUserTaskDto> _updateUserTaskValidator;
+    private AndSpecification<UserTask> combinedSpecification;
 
     public UserTaskService(
         IUserTaskRepository taskRepository,
@@ -27,24 +30,7 @@ public class UserTaskService : IUserTaskService
         _createUserTaskValidator = createUserTaskValidator;
         _updateUserTaskValidator = updateUserTaskValidator;
     }
-
-    public async Task<PagedList<UserTaskDto>> GetTasksAsync(
-        PagedUserTasksDto pagedTasksDto)
-    {
-        var userId = _currentUserService.UserId;
-        
-        var taskList = await _taskRepository.GetPagedTasksAsync(
-            pagedTasksDto.Page, 
-            pagedTasksDto.PageSize, 
-            pagedTasksDto.CategoryIds,
-            pagedTasksDto.SearchString,
-            userId
-            );
-
-        pagedTasksDto.Items = taskList.ToListDtos();
-        return pagedTasksDto;
-    }
-
+    
     public async Task<ErrorOr<UserTaskDto>> AddCategoriesAsync(UserTaskCategoriesDto dto)
     {
         var result = await _taskRepository.AddCategoriesAsync(dto.TaskId, dto.CategoryIds);
@@ -85,5 +71,25 @@ public class UserTaskService : IUserTaskService
         var result = await _taskRepository.UpdateUserTaskAsync(dto.ToEntity());
 
         return result.IsError ? result.Errors : Result.Updated;
+    }
+    
+    public async Task<PagedList<UserTaskDto>> GetTasksAsync(
+        PagedUserTasksRequestDto pagedUserTaskDto)
+    {
+        string userId = _currentUserService.UserId;
+        Specification<UserTask> combinedSpec = new UserIdSpecification(userId);
+        
+        if (pagedUserTaskDto.CategoryIds is not null && pagedUserTaskDto.CategoryIds.Any())
+        {
+            combinedSpec = combinedSpec.And(new CategorySpecification(pagedUserTaskDto.CategoryIds));
+        }
+        
+        if (!string.IsNullOrWhiteSpace(pagedUserTaskDto.SearchTerm))
+        {
+            combinedSpec = combinedSpec.And(new SearchTermSpecification(pagedUserTaskDto.SearchTerm));
+        }
+
+        var pagedTasks= await _taskRepository.GetPagedTasksAsync(combinedSpec, pagedUserTaskDto.Page, pagedUserTaskDto.PageSize);
+        return pagedTasks.ToListDtos();
     }
 }
