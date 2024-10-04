@@ -7,12 +7,6 @@ namespace ToDoApp.BLL.Mapping;
 
 public static class UserTaskMapping
 {
-    public static List<UserTaskDto> ToListDtos(
-        this List<UserTask> userTasks)
-    {
-        return userTasks.Select(task => task.ToDto()).ToList();
-    }
-    
     public static PagedList<UserTaskDto> ToListDtos(
         this PagedList<UserTask> userTasks)
     {
@@ -56,7 +50,8 @@ public static class UserTaskMapping
             Name = dto.Name,
             Description = dto.Description,
             DueDate = dto.DueDate,
-            IsDone = false
+            IsDone = dto.IsDone,
+            Categories = new List<Category>()
         };
     }
     public static UserTask ToEntity(
@@ -68,7 +63,8 @@ public static class UserTaskMapping
             Name = dto.Name,
             Description = dto.Description,
             DueDate = dto.DueDate,
-            IsDone = dto.IsDone
+            IsDone = dto.IsDone,
+            Categories = new List<Category>()
         };
     }
 }

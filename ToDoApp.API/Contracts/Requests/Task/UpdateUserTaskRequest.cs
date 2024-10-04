@@ -4,5 +4,6 @@ public record UpdateUserTaskRequest(
     string Name,
     DateTime DueDate,
     string? Description,
-    bool IsDone
+    bool IsDone,
+    List<int>? CategoryIds 
     );

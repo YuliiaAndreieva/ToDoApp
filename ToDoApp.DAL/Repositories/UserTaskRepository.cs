@@ -18,10 +18,11 @@ public class UserTaskRepository : IUserTaskRepository
         _context = context;
     }
     
-    private async Task<UserTask?> FindUserTaskByIdAsync(int taskId)
+    public async Task<UserTask?> FindUserTaskByIdAsync(int userTaskId)
     {
         return await _context.UserTasks
-            .FirstOrDefaultAsync(ut => ut.Id == taskId);
+            .Include(ut=>ut.Categories)
+            .FirstOrDefaultAsync(ut => ut.Id == userTaskId);
     }
 
     public async Task<ErrorOr<UserTask>> AddCategoriesAsync(int taskId, List<int> categoryIds)
@@ -38,8 +39,9 @@ public class UserTaskRepository : IUserTaskRepository
 
     private async Task<ErrorOr<UserTask>> AddCategoriesAsync(UserTask userTask, List<int> categoryIds)
     {
-        var categoriesToAdd = _context.Categories
-            .Where(c => categoryIds.Contains(c.Id));
+        var categoriesToAdd = await _context.Categories
+            .Where(c => categoryIds.Contains(c.Id))
+            .ToListAsync();
         
         if (categoryIds is null)
             return Error.NotFound();
@@ -53,7 +55,7 @@ public class UserTaskRepository : IUserTaskRepository
     {
         await _context.UserTasks.AddAsync(userTask);
         
-        if(categoryIds is not null)
+        if(categoryIds is not null && categoryIds.Count != 0)
             return await AddCategoriesAsync(userTask, categoryIds);
         
         return await SaveChangesOrReturnAsync(userTask);
@@ -92,15 +94,18 @@ public class UserTaskRepository : IUserTaskRepository
         }
     }
     
-    public async Task<ErrorOr<UserTask>> UpdateUserTaskAsync(UserTask updatedUserTask)
+    public async Task<ErrorOr<UserTask>> UpdateUserTaskAsync(UserTask updatedUserTask, List<int>? categoryIds)
     {
         var userTask = await FindUserTaskByIdAsync(updatedUserTask.Id);
 
         if (userTask is null)
             return Error.NotFound();
-
+        
         UpdateUserTaskProperties(userTask, updatedUserTask);
 
+        if (categoryIds is not null && categoryIds.Count != 0)
+            return await UpdateTaskCategoriesAsync(userTask, categoryIds);
+        
         try
         {
             await _context.SaveChangesAsync();
@@ -111,6 +116,30 @@ public class UserTaskRepository : IUserTaskRepository
             return Error.Failure();
         }
     }
+    
+    private async Task<ErrorOr<UserTask>> UpdateTaskCategoriesAsync(UserTask userTask, List<int> categoryIds)
+    {
+        var existingCategoryIds = userTask.Categories.Select(c => c.Id).ToList();
+        
+        var categoriesToRemove = userTask.Categories
+            .Where(c => !categoryIds.Contains(c.Id))
+            .ToList();
+        
+        foreach (var category in categoriesToRemove)
+        {
+            userTask.Categories.Remove(category);
+        }
+        
+        var newCategoryIds = categoryIds
+            .Where(id => !existingCategoryIds.Contains(id))
+            .ToList();
+
+        if (newCategoryIds.Any())
+            return await AddCategoriesAsync(userTask, newCategoryIds);
+        
+        return await SaveChangesOrReturnAsync(userTask);
+    }
+
 
     private static void UpdateUserTaskProperties(
         UserTask oldUserTask,

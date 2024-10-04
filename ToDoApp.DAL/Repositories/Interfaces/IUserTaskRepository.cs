@@ -8,7 +8,7 @@ namespace ToDoApp.DAL.Repositories.Interfaces;
 public interface IUserTaskRepository
 {
     Task<ErrorOr<UserTask>> AddCategoriesAsync(
-        int taskId, 
+        int userTaskId, 
         List<int> categoryIds);
 
     Task<ErrorOr<UserTask>> CreateUserTask(
@@ -16,13 +16,17 @@ public interface IUserTaskRepository
         List<int>? categoryIds);
 
     Task<ErrorOr<Deleted>> DeleteUserTask(
-        int id);
+        int taskId);
 
     Task<ErrorOr<UserTask>> UpdateUserTaskAsync(
-        UserTask updatedUserTask);
+        UserTask updatedUserTask,
+        List<int>? categoryIds);
 
     Task<PagedList<UserTask>> GetPagedTasksAsync(
         Specification<UserTask> specification,
         int page,
         int pageSize);
+
+    Task<UserTask?> FindUserTaskByIdAsync(
+        int userTaskId);
 }

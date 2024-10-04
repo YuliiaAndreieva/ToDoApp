@@ -60,7 +60,8 @@ public static class RequestsMapping
             Name = request.Name,
             Description = request.Description,
             DueDate = request.DueDate,
-            CategoryIds= request.CategoryIds
+            CategoryIds= request.CategoryIds,
+            IsDone = request.IsDone
         };
     }
     
@@ -73,7 +74,8 @@ public static class RequestsMapping
             Name = tuple.Request.Name,
             Description = tuple.Request.Description,
             DueDate = tuple.Request.DueDate,
-            IsDone = tuple.Request.IsDone
+            IsDone = tuple.Request.IsDone,
+            CategoryIds = tuple.Request.CategoryIds
         };
     }
 }

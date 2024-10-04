@@ -38,7 +38,7 @@ public class UserTaskController : ControllerBase
     }
     
     [HttpPost("api/tasks")]
-    public async Task<IActionResult> CreateUserTask([FromQuery] CreateUserTaskRequest request)
+    public async Task<IActionResult> CreateUserTask(CreateUserTaskRequest request)
     {
         var result = await _taskService.CreateUserTaskAsync(request.ToDto());
     
@@ -60,7 +60,7 @@ public class UserTaskController : ControllerBase
     }
     
     [HttpPut("api/tasks/{id}")]
-    public async Task<IActionResult> UpdateUserTask([FromQuery] UpdateUserTaskRequest request, int id)
+    public async Task<IActionResult> UpdateUserTask(UpdateUserTaskRequest request, int id)
     {
         var dto = (id, request).ToDto();
         var result = await _taskService.UpdateUserTaskAsync(dto);
@@ -69,5 +69,12 @@ public class UserTaskController : ControllerBase
             deleted => NoContent(), 
             errors => Problem(errors.ToResponse()) 
         );
+    }
+
+    [HttpGet("api/tasks/{id}")]
+    public async Task<IActionResult> GetUserTaskById(int id)
+    {
+        var userTask = await _taskService.GetUserTaskByIdAsync(id);
+        return Ok(userTask);
     }
 }

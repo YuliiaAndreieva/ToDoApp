@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.IdentityModel.Tokens;
 using ToDoApp.BLL.DTOs.Task;
 
 namespace ToDoApp.BLL.Validation.UserTask;
@@ -19,10 +20,13 @@ public class BaseUserTaskDtoValidator : AbstractValidator<BaseUserTaskDto>
             .GreaterThanOrEqualTo(DateTime.Now.AddDays(-1))
             .WithMessage("The due date must be from yesterday or later.");
         
-        RuleFor(us => us.Description)
-            .MinimumLength(3)
-            .WithMessage("The description must be longer")
-            .MaximumLength(150)
-            .WithMessage("The description must be shorter ");
+        When(ut => !ut.Description.IsNullOrEmpty(), () =>
+        {
+            RuleFor(us => us.Description)
+                .MinimumLength(3)
+                .WithMessage("The description must be longer")
+                .MaximumLength(150)
+                .WithMessage("The description must be shorter ");;
+        });
     }
 }

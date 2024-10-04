@@ -68,7 +68,7 @@ public class UserTaskService : IUserTaskService
             return validationResult.ToErrorOr<Updated>();
         }
         
-        var result = await _taskRepository.UpdateUserTaskAsync(dto.ToEntity());
+        var result = await _taskRepository.UpdateUserTaskAsync(dto.ToEntity(), dto.CategoryIds);
 
         return result.IsError ? result.Errors : Result.Updated;
     }
@@ -91,5 +91,12 @@ public class UserTaskService : IUserTaskService
 
         var pagedTasks= await _taskRepository.GetPagedTasksAsync(combinedSpec, pagedUserTaskDto.Page, pagedUserTaskDto.PageSize);
         return pagedTasks.ToListDtos();
+    }
+
+    public async Task<UserTaskDto> GetUserTaskByIdAsync(
+        int userTaskId)
+    {
+        var task = await _taskRepository.FindUserTaskByIdAsync(userTaskId);
+        return task.ToDto();
     }
 }

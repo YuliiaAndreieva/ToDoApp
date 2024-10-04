@@ -6,6 +6,8 @@ namespace ToDoApp.BLL.Services.Interfaces;
 
 public interface IUserTaskService
 {
+    Task<UserTaskDto> GetUserTaskByIdAsync(int userTaskId);
+    
     Task<PagedList<UserTaskDto>> GetTasksAsync(PagedUserTasksRequestDto getPagedTasksDto);
 
     Task<ErrorOr<UserTaskDto>> AddCategoriesAsync(UserTaskCategoriesDto userTaskCategoriesDto);
