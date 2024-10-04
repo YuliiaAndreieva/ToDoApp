@@ -7,6 +7,7 @@ export const API_URLS = {
   },
   TASK: {
     GET_ALL: `${environment.apiBaseUrl}/api/tasks`,
+    GET: (id: number) => `${environment.apiBaseUrl}/api/tasks/${id}`,
   },
   CATEGORY: {
     GET_ALL: `${environment.apiBaseUrl}/api/categories`,

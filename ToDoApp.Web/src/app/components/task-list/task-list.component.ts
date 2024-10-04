@@ -7,6 +7,8 @@ import { CategoryModel } from '../../models/category/category.model';
 import { CategoryService } from '../../services/category.service';
 import { PaginationComponent } from '../pagination/pagination.component';
 import { PaginationModel } from '../../models/pagination.model';
+import { Router, RouterLink } from '@angular/router';
+import { CategorySelectorComponent } from '../category-selector/category-selector.component';
 
 @Component({
   selector: 'app-task-list',
@@ -18,6 +20,8 @@ import { PaginationModel } from '../../models/pagination.model';
     NgIf,
     NgClass,
     PaginationComponent,
+    RouterLink,
+    CategorySelectorComponent,
   ],
   templateUrl: './task-list.component.html',
 })
@@ -41,6 +45,7 @@ export class TaskListComponent implements OnInit {
   constructor(
     private taskService: TaskService,
     private categoryService: CategoryService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -80,31 +85,6 @@ export class TaskListComponent implements OnInit {
     });
   }
 
-  selectCategory(category: CategoryModel): void {
-    const isSelected = this.selectedCategories.some(
-      (selected) => selected.id === category.id,
-    );
-
-    if (!isSelected) {
-      this.selectedCategories.push(category);
-      this.currentPage = 1;
-      this.loadTasks();
-    }
-
-    this.toggleDropdown();
-  }
-
-  removeCategory(category: CategoryModel) {
-    this.selectedCategories = this.selectedCategories.filter(
-      (c) => c.id !== category.id,
-    );
-    this.currentPage = 1;
-  }
-
-  toggleDropdown() {
-    this.isDropdownOpen = !this.isDropdownOpen;
-  }
-
   onSearchChange(): void {
     this.currentPage = 1;
     this.loadTasks();
@@ -113,5 +93,14 @@ export class TaskListComponent implements OnInit {
   onPageChange(newPage: number): void {
     this.currentPage = newPage;
     this.loadTasks();
+  }
+
+  onCategoriesChanged(selectedCategories: CategoryModel[]): void {
+    this.selectedCategories = selectedCategories;
+    this.currentPage = 1;
+    this.loadTasks();
+  }
+  onUpdateTask(task: TaskModel) {
+    this.router.navigate(['/task-update', task.id]);
   }
 }

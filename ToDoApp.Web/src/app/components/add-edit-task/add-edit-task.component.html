@@ -1,0 +1,74 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+  <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-6 text-center">{{ isUpdateMode ? 'Update Task' : 'Create Task' }}</h2>
+
+    <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+      <div class="mb-4">
+        <label for="name" class="block text-gray-700 font-bold mb-2">Name</label>
+        <input
+          id="name"
+          type="text"
+          formControlName="name"
+          class="w-full px-3 py-2 border rounded-lg shadow-sm"
+          placeholder="Enter task name"
+          [class.border-red-500]="taskForm.get('name')?.invalid && taskForm.get('name')?.touched"
+          required
+        />
+        <div *ngIf="taskForm.get('name')?.invalid && taskForm.get('name')?.touched" class="text-red-500">
+          Task name is required
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label for="description" class="block text-gray-700 font-bold mb-2">Description</label>
+        <textarea
+          id="description"
+          formControlName="description"
+          class="w-full px-3 py-2 border rounded-lg shadow-sm"
+          placeholder="Enter task description"
+        ></textarea>
+      </div>
+
+      <div class="mb-4">
+        <label for="dueDate" class="block text-gray-700 font-bold mb-2">Due Date</label>
+        <input
+          id="dueDate"
+          type="datetime-local"
+          formControlName="dueDate"
+          class="w-full px-3 py-2 border rounded-lg shadow-sm"
+          required
+        />
+        <div *ngIf="taskForm.get('dueDate')?.invalid && taskForm.get('dueDate')?.touched" class="text-red-500">
+          Due date is required
+        </div>
+      </div>
+
+      <div class="mb-4 flex items-center">
+        <input
+          id="isDone"
+          type="checkbox"
+          formControlName="isDone"
+          class="mr-2 transform scale-150"
+        />
+        <label for="isDone" class="text-gray-700 font-bold mb-2">Done</label>
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-gray-700 font-bold mb-2">Select Categories:</label>
+        <app-category-selector
+          [availableCategories]="availableCategories"
+          [selectedCategories]="selectedCategories"
+          (categoriesChanged)="onCategoriesChanged($event)">
+        </app-category-selector>
+      </div>
+      <div class="flex justify-between">
+        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-lg shadow-lg" [disabled]="taskForm.invalid">
+          {{ isUpdateMode ? 'Update Task' : 'Create Task' }}
+        </button>
+        <button type="button" (click)="onUndo()" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-lg">
+          Undo
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
