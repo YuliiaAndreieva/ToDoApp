@@ -100,7 +100,8 @@ export class TaskListComponent implements OnInit {
     this.currentPage = 1;
     this.loadTasks();
   }
-  onUpdateTask(task: TaskModel) {
-    this.router.navigate(['/task-update', task.id]);
+
+  onDetailsTask(task: TaskModel) {
+    this.router.navigate(['/task-details', task.id]);
   }
 }

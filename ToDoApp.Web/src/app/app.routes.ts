@@ -4,6 +4,7 @@ import { TaskListComponent } from './components/task-list/task-list.component';
 import { AuthGuard } from './guards/auth.guard';
 import { RegisterComponent } from './components/register/register.component';
 import { AddEditTaskComponent } from './components/add-edit-task/add-edit-task.component';
+import { TaskDetailsComponent } from './components/task-details/task-details.component';
 
 export const routes: Routes = [
   {
@@ -32,6 +33,11 @@ export const routes: Routes = [
   {
     path: 'task-update/:id',
     component: AddEditTaskComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'task-details/:id',
+    component: TaskDetailsComponent,
     canActivate: [AuthGuard],
   },
 ];

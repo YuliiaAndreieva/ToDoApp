@@ -106,9 +106,14 @@ export class AddEditTaskComponent implements OnInit {
     }
   }
   onUndo() {
-    if (!this.isUpdateMode) {
+    if (this.isUpdateMode) {
       this.taskForm.reset();
     }
     this.router.navigate(['/task-list']);
+  }
+
+  onClear() {
+    this.taskForm.reset();
+    this.selectedCategories = [];
   }
 }

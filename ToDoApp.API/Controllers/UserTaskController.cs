@@ -48,7 +48,7 @@ public class UserTaskController : ControllerBase
         );
     }
     
-    [HttpPost("api/tasks/{id}")]
+    [HttpDelete("api/tasks/{id}")]
     public async Task<IActionResult> DeleteUserTask(int id)
     {
         var result = await _taskService.DeleteUserTaskAsync(id);

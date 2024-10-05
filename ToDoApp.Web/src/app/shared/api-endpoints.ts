@@ -6,8 +6,8 @@ export const API_URLS = {
     LOGIN: `${environment.apiBaseUrl}/api/auth/login`,
   },
   TASK: {
-    GET_ALL: `${environment.apiBaseUrl}/api/tasks`,
-    GET: (id: number) => `${environment.apiBaseUrl}/api/tasks/${id}`,
+    BASE_URL: `${environment.apiBaseUrl}/api/tasks`,
+    GET_BY_ID: (id: number) => `${environment.apiBaseUrl}/api/tasks/${id}`,
   },
   CATEGORY: {
     GET_ALL: `${environment.apiBaseUrl}/api/categories`,

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { API_URLS } from '../shared/constants';
+import { API_URLS } from '../shared/api-endpoints';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, catchError, map, Observable, throwError } from 'rxjs';
 import { UserAuthModel } from '../models/user/user.auth.model';

@@ -66,7 +66,10 @@
           {{ isUpdateMode ? 'Update Task' : 'Create Task' }}
         </button>
         <button type="button" (click)="onUndo()" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-lg">
-          Undo
+          Cancel
+        </button>
+        <button type="button" (click)="onClear()" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg shadow-lg">
+          Clear
         </button>
       </div>
     </form>

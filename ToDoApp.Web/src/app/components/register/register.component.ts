@@ -19,7 +19,6 @@ export class RegisterComponent {
     private router: Router,
   ) {}
   onRegister() {
-    console.log(this.registerData);
     this.authService.authenticate(this.registerData, true).subscribe(
       (response) => {
         this.router.navigate(['/task-list']);

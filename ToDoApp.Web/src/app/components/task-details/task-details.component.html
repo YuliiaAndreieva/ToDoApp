@@ -1,0 +1,56 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+  <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+    <h2 class="text-2xl font-bold mb-6 text-center">Task Details</h2>
+
+    <div>
+      <div class="mb-4">
+        <strong>Name:</strong>
+        <p>{{ task?.name }}</p>
+      </div>
+
+      <div class="mb-4">
+        <strong>Due Date:</strong>
+        <p>{{ task?.dueDate }}</p>
+      </div>
+
+      <div class="mb-4">
+        <strong>Status:</strong>
+        <span [ngClass]="task?.isDone ? 'text-green-500' : 'text-red-500'">
+          {{ task?.isDone ? 'Done' : 'Not Done' }}
+        </span>
+      </div>
+
+      <div class="mb-4">
+        <strong>Categories:</strong>
+        <div class="flex flex-wrap gap-2">
+          <span *ngFor="let category of task?.categoryDtos" class="bg-blue-100 text-blue-600 px-2 py-1 rounded-lg text-xs">
+            {{ category.name }}
+          </span>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <strong>Description:</strong>
+        <p>{{ task?.description }}</p>
+      </div>
+    </div>
+
+    <div class="flex justify-between mt-6">
+      <button
+        class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition"
+        (click)="onUpdate()"
+      >
+        Update
+      </button>
+
+      <app-task-delete *ngIf="task" [taskId]="task.id"></app-task-delete>
+
+      <button
+        class="px-4 py-2 bg-gray-300 text-black rounded-lg hover:bg-gray-400 transition"
+        (click)="onReturn()"
+      >
+        Return
+      </button>
+    </div>
+  </div>
+</div>
