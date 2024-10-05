@@ -9,6 +9,7 @@ import { PaginationComponent } from '../pagination/pagination.component';
 import { PaginationModel } from '../../models/pagination.model';
 import { Router, RouterLink } from '@angular/router';
 import { CategorySelectorComponent } from '../category-selector/category-selector.component';
+import { TaskDeleteComponent } from '../task-delete/task-delete.component';
 
 @Component({
   selector: 'app-task-list',
@@ -22,6 +23,7 @@ import { CategorySelectorComponent } from '../category-selector/category-selecto
     PaginationComponent,
     RouterLink,
     CategorySelectorComponent,
+    TaskDeleteComponent,
   ],
   templateUrl: './task-list.component.html',
 })
