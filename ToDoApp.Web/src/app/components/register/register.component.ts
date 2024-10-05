@@ -24,7 +24,11 @@ export class RegisterComponent {
         this.router.navigate(['/task-list']);
       },
       (error) => {
-        console.error('Register failed', error);
+        this.router.navigate(['/error'], {
+          queryParams: {
+            message: 'Register failed: ' + error.message,
+          },
+        });
       },
     );
   }

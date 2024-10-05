@@ -56,7 +56,11 @@ export class AddEditTaskComponent implements OnInit {
           }
         },
         (error) => {
-          console.error('Error loading task', error);
+          this.router.navigate(['/error'], {
+            queryParams: {
+              message: 'Error loading tasks: ' + error.message,
+            },
+          });
         },
       );
     }
@@ -91,7 +95,11 @@ export class AddEditTaskComponent implements OnInit {
           this.router.navigate(['/task-list']);
         },
         (error) => {
-          console.error('Error updating task', error);
+          this.router.navigate(['/error'], {
+            queryParams: {
+              message: 'Error updating task: ' + error.message,
+            },
+          });
         },
       );
     } else {
@@ -100,7 +108,11 @@ export class AddEditTaskComponent implements OnInit {
           this.router.navigate(['/task-list']);
         },
         (error) => {
-          console.error('Error creating task', error);
+          this.router.navigate(['/error'], {
+            queryParams: {
+              message: 'Error creating task: ' + error.message,
+            },
+          });
         },
       );
     }

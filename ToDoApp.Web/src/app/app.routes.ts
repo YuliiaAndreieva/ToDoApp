@@ -5,6 +5,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { RegisterComponent } from './components/register/register.component';
 import { AddEditTaskComponent } from './components/add-edit-task/add-edit-task.component';
 import { TaskDetailsComponent } from './components/task-details/task-details.component';
+import { ErrorPageComponent } from './components/error-page/error-page.component';
 
 export const routes: Routes = [
   {
@@ -39,5 +40,9 @@ export const routes: Routes = [
     path: 'task-details/:id',
     component: TaskDetailsComponent,
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'error',
+    component: ErrorPageComponent,
   },
 ];

@@ -19,11 +19,13 @@ export class TaskDeleteComponent {
   onDelete() {
     if (confirm('Are you sure you want to delete this task?')) {
       this.taskService.deleteTask(this.taskId).subscribe(
-        (response) => {
-          console.log(response);
-        },
+        (response) => {},
         (error) => {
-          console.error('Error deleting task', error);
+          this.router.navigate(['/error'], {
+            queryParams: {
+              message: 'Error deleting tasks: ' + error.message,
+            },
+          });
         },
       );
     }

@@ -42,12 +42,10 @@ export class TaskService {
   }
 
   createTask(taskData: AddEditTaskModel): Observable<TaskModel> {
-    console.log(taskData);
     return this.http.post<TaskModel>(API_URLS.TASK.BASE_URL, taskData);
   }
 
   deleteTask(id: number): Observable<void> {
-    console.log(id);
     return this.http.delete<void>(API_URLS.TASK.GET_BY_ID(id));
   }
 }

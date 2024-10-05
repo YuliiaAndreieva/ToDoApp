@@ -70,7 +70,6 @@ export class TaskListComponent implements OnInit {
       SearchTerm: this.searchTerm || undefined,
       Page: this.currentPage,
     };
-    console.log('request', request);
     this.taskService.getPagedTasks(request).subscribe((response) => {
       this.tasks = response.items;
       this.pagination = {
@@ -81,7 +80,6 @@ export class TaskListComponent implements OnInit {
         hasPreviousPage: response.hasPreviousPage,
         totalPages: 1,
       };
-      console.log('response', response);
     });
   }
 

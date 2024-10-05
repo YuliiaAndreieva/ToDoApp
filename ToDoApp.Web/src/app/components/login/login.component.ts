@@ -22,11 +22,14 @@ export class LoginComponent {
   onLogin() {
     this.authService.authenticate(this.loginData, false).subscribe(
       (response) => {
-        console.log('Login successful', response);
         this.router.navigate(['/task-list']);
       },
       (error) => {
-        console.error('Login failed', error);
+        this.router.navigate(['/error'], {
+          queryParams: {
+            message: 'Login is unsuccessful: ' + error.message,
+          },
+        });
       },
     );
   }

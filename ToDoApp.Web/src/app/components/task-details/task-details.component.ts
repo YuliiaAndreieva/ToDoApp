@@ -26,7 +26,11 @@ export class TaskDetailsComponent implements OnInit {
         this.task = task;
       },
       (error) => {
-        console.error('Error loading task', error);
+        this.router.navigate(['/error'], {
+          queryParams: {
+            message: 'Error loading task: ' + error.message,
+          },
+        });
       },
     );
   }
