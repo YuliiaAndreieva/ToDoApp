@@ -10,6 +10,6 @@ export const API_URLS = {
     GET_BY_ID: (id: number) => `${environment.apiBaseUrl}/api/tasks/${id}`,
   },
   CATEGORY: {
-    GET_ALL: `${environment.apiBaseUrl}/api/categories`,
+    BASE_URL: `${environment.apiBaseUrl}/api/categories`,
   },
 };

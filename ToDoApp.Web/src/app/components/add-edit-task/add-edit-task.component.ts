@@ -91,7 +91,7 @@ export class AddEditTaskComponent implements OnInit {
 
     if (this.isUpdateMode && this.taskId) {
       this.taskService.updateTask(this.taskId, taskData).subscribe(
-        (response) => {
+        () => {
           this.router.navigate(['/task-list']);
         },
         (error) => {
@@ -104,7 +104,7 @@ export class AddEditTaskComponent implements OnInit {
       );
     } else {
       this.taskService.createTask(taskData).subscribe(
-        (response) => {
+        () => {
           this.router.navigate(['/task-list']);
         },
         (error) => {

@@ -20,7 +20,7 @@ export class RegisterComponent {
   ) {}
   onRegister() {
     this.authService.authenticate(this.registerData, true).subscribe(
-      (response) => {
+      () => {
         this.router.navigate(['/task-list']);
       },
       (error) => {

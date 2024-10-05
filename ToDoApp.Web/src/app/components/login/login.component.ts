@@ -21,7 +21,7 @@ export class LoginComponent {
 
   onLogin() {
     this.authService.authenticate(this.loginData, false).subscribe(
-      (response) => {
+      () => {
         this.router.navigate(['/task-list']);
       },
       (error) => {
