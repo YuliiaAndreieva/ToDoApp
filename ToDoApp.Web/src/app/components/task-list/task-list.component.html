@@ -1,6 +1,8 @@
-<div class="task-list flex-grow overflow-auto min-h-screen p-6 bg-gray-50">
+<div class="task-list min-h-screen flex-grow overflow-auto bg-gray-50 p-6">
   <div class="mb-4">
-    <label for="search" class="block text-gray-700 font-bold mb-2">Search Tasks:</label>
+    <label for="search" class="mb-2 block font-bold text-gray-700"
+      >Search Tasks:</label
+    >
     <div class="flex items-center">
       <input
         id="search"
@@ -8,11 +10,12 @@
         [(ngModel)]="searchTerm"
         (input)="onSearchChange()"
         placeholder="Enter task name or description"
-        class="flex-grow p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+        class="flex-grow rounded-lg border border-gray-300 p-2 focus:border-blue-500 focus:outline-none"
       />
       <a
-        class="ml-4 px-4 py-2 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600 focus:outline-none whitespace-nowrap"
-        [routerLink]="['/task-create']">
+        class="ml-4 whitespace-nowrap rounded-lg bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-600 focus:outline-none"
+        [routerLink]="['/task-create']"
+      >
         Add task
       </a>
     </div>
@@ -21,28 +24,31 @@
   <app-category-selector
     [availableCategories]="availableCategories"
     [selectedCategories]="selectedCategories"
-    (categoriesChanged)="onCategoriesChanged($event)">
+    (categoriesChanged)="onCategoriesChanged($event)"
+  >
   </app-category-selector>
 
   <div *ngIf="tasks.length > 0; else noTasksTemplate">
     <ul class="space-y-2">
       <li
         *ngFor="let task of tasks"
-        class="task-item p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition duration-200 ease-in-out flex justify-between items-center"
+        class="task-item flex items-center justify-between rounded-lg border border-gray-200 bg-white p-4 shadow-sm transition duration-200 ease-in-out hover:shadow-md"
       >
         <div>
-          <h3 class="font-bold text-lg">{{ task.name }}</h3>
-          <p class="text-sm text-gray-600"><strong>Due:</strong> {{ task.dueDate }}</p>
+          <h3 class="text-lg font-bold">{{ task.name }}</h3>
+          <p class="text-sm text-gray-600">
+            <strong>Due:</strong> {{ task.dueDate }}
+          </p>
           <p class="text-sm">
             <strong>Status:</strong>
             <span [ngClass]="task.isDone ? 'text-green-500' : 'text-red-500'">
-            {{ task.isDone ? 'Done' : 'Not Done' }}
-          </span>
+              {{ task.isDone ? "Done" : "Not Done" }}
+            </span>
           </p>
         </div>
 
         <button
-          class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition"
+          class="rounded-lg bg-gray-500 px-4 py-2 text-white transition hover:bg-gray-600"
           (click)="onDetailsTask(task)"
         >
           Details
@@ -55,8 +61,9 @@
       [currentPage]="pagination.currentPage"
       [hasNextPage]="pagination.hasNextPage"
       [hasPreviousPage]="pagination.hasPreviousPage"
-      (pageChange)="onPageChange($event)">
-    ></app-pagination>
+      (pageChange)="onPageChange($event)"
+    >
+    </app-pagination>
   </div>
 
   <ng-template #noTasksTemplate>

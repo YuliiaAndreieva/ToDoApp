@@ -1,8 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { ButtonComponent } from '../../shared/components/button/button.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { UserAuthModel } from '../../models/user/user.auth.model';
 import { PasswordInputComponent } from '../../shared/components/password-input/password-input.component';
 import { EmailInputComponent } from '../../shared/components/email-input/email-input.component';
@@ -20,15 +26,25 @@ import { EmailInputComponent } from '../../shared/components/email-input/email-i
   ],
   templateUrl: './register.component.html',
 })
-export class RegisterComponent {
-  registerData: UserAuthModel = { email: '', password: '' };
+export class RegisterComponent implements OnInit {
+  registerForm!: FormGroup;
 
   constructor(
     private authService: AuthService,
     private router: Router,
+    private fb: FormBuilder,
   ) {}
+
+  ngOnInit(): void {
+    this.registerForm = this.fb.group({
+      email: ['', [Validators.required]],
+      password: ['', [Validators.required]],
+    });
+  }
+
   onRegister() {
-    this.authService.authenticate(this.registerData, true).subscribe(
+    const registerData = this.registerForm.value;
+    this.authService.authenticate(registerData, true).subscribe(
       () => {
         this.router.navigate(['/task-list']);
       },

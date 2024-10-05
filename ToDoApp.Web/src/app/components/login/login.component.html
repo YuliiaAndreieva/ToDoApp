@@ -1,15 +1,10 @@
 <div class="flex min-h-screen items-center justify-center bg-gray-100">
   <div class="w-full max-w-md rounded-lg bg-white p-8 shadow-lg">
     <h2 class="mb-6 text-center text-2xl font-bold">Login</h2>
-    <form (ngSubmit)="onLogin()">
-      <app-email-input
-        [(ngModel)]="loginData.email"
-        name="email"
-      ></app-email-input>
-      <app-password-input
-        [(ngModel)]="loginData.password"
-        name="password"
-      ></app-password-input>
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      <app-email-input [form]="loginForm" controlName="email"></app-email-input>
+      <app-password-input [form]="loginForm" controlName="password"></app-password-input>
+
       <div class="flex items-center justify-between">
         <app-button type="submit">Login</app-button>
       </div>

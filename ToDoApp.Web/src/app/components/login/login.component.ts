@@ -1,9 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { FormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { ButtonComponent } from '../../shared/components/button/button.component';
-import { UserAuthModel } from '../../models/user/user.auth.model';
 import { PasswordInputComponent } from '../../shared/components/password-input/password-input.component';
 import { EmailInputComponent } from '../../shared/components/email-input/email-input.component';
 
@@ -16,29 +21,39 @@ import { EmailInputComponent } from '../../shared/components/email-input/email-i
     ButtonComponent,
     PasswordInputComponent,
     EmailInputComponent,
+    ReactiveFormsModule,
   ],
   templateUrl: './login.component.html',
 })
-export class LoginComponent {
-  loginData: UserAuthModel = { email: '', password: '' };
+export class LoginComponent implements OnInit {
+  loginForm!: FormGroup;
 
   constructor(
+    private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
   ) {}
 
-  onLogin() {
-    this.authService.authenticate(this.loginData, false).subscribe(
-      () => {
-        this.router.navigate(['/task-list']);
-      },
-      (error) => {
-        this.router.navigate(['/error'], {
-          queryParams: {
-            message: 'Login is unsuccessful: ' + error.message,
-          },
-        });
-      },
-    );
+  ngOnInit(): void {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required]],
+      password: ['', [Validators.required]],
+    });
+  }
+
+  onLogin(): void {
+    if (this.loginForm.valid) {
+      const loginData = this.loginForm.value;
+      this.authService.authenticate(loginData, false).subscribe(
+        () => {
+          this.router.navigate(['/task-list']);
+        },
+        (error) => {
+          this.router.navigate(['/error'], {
+            queryParams: { message: 'Login is unsuccessful: ' + error.message },
+          });
+        },
+      );
+    }
   }
 }

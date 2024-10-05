@@ -1,6 +1,6 @@
-<div class="min-h-screen flex items-center justify-center bg-gray-100">
-  <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-    <h2 class="text-2xl font-bold mb-6 text-center">Task Details</h2>
+<div class="flex min-h-screen items-center justify-center bg-gray-100">
+  <div class="w-full max-w-md rounded-lg bg-white p-8 shadow-lg">
+    <h2 class="mb-6 text-center text-2xl font-bold">Task Details</h2>
 
     <div>
       <div class="mb-4">
@@ -16,14 +16,17 @@
       <div class="mb-4">
         <strong>Status:</strong>
         <span [ngClass]="task?.isDone ? 'text-green-500' : 'text-red-500'">
-          {{ task?.isDone ? 'Done' : 'Not Done' }}
+          {{ task?.isDone ? "Done" : "Not Done" }}
         </span>
       </div>
 
       <div class="mb-4">
         <strong>Categories:</strong>
         <div class="flex flex-wrap gap-2">
-          <span *ngFor="let category of task?.categoryDtos" class="bg-blue-100 text-blue-600 px-2 py-1 rounded-lg text-xs">
+          <span
+            *ngFor="let category of task?.categoryDtos"
+            class="rounded-lg bg-blue-100 px-2 py-1 text-xs text-blue-600"
+          >
             {{ category.name }}
           </span>
         </div>
@@ -35,9 +38,9 @@
       </div>
     </div>
 
-    <div class="flex justify-between mt-6">
+    <div class="mt-6 flex justify-between">
       <button
-        class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition"
+        class="rounded-lg bg-gray-500 px-4 py-2 text-white transition hover:bg-gray-600"
         (click)="onUpdate()"
       >
         Update
@@ -46,7 +49,7 @@
       <app-task-delete *ngIf="task" [taskId]="task.id"></app-task-delete>
 
       <button
-        class="px-4 py-2 bg-gray-300 text-black rounded-lg hover:bg-gray-400 transition"
+        class="rounded-lg bg-gray-300 px-4 py-2 text-black transition hover:bg-gray-400"
         (click)="onReturn()"
       >
         Return
