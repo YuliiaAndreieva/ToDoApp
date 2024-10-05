@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgForOf, NgIf } from '@angular/common';
-import { ButtonComponent } from '../../shared/buttons/button/button.component';
+import { ButtonComponent } from '../../shared/components/button/button.component';
 
 @Component({
   selector: 'app-pagination',
