@@ -45,13 +45,11 @@ export class LoginComponent implements OnInit {
   onLogin(): void {
     if (this.loginForm.valid) {
       const loginData = this.loginForm.value;
-      console.log(loginData);
       this.authService.authenticate(loginData, false).subscribe(
         () => {
           this.router.navigate(['/task-list']);
         },
         (error) => {
-          console.log('ERRRor in service', error);
           this.router.navigate(['/error'], {
             queryParams: { message: 'Login is unsuccessful: ' + error.message },
           });

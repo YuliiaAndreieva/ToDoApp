@@ -11,7 +11,7 @@
         controlName="password"
       ></app-password-input>
       <div class="flex items-center justify-between">
-        <app-button type="submit">Register</app-button>
+        <app-button type="submit" [disabled]="registerForm.invalid">Register</app-button>
       </div>
     </form>
   </div>

@@ -84,8 +84,6 @@ export class TaskListComponent implements OnInit {
         totalPages: 1,
       };
     });
-    console.log(this.availableCategories);
-    console.log(this.tasks);
   }
 
   onSearchChange(): void {

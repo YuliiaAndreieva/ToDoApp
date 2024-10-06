@@ -7,11 +7,12 @@ import {
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-password-input',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule],
+  imports: [FormsModule, ReactiveFormsModule, NgIf],
   templateUrl: './password-input.component.html',
   providers: [
     {

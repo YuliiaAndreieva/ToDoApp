@@ -6,7 +6,12 @@
     [formControl]="control"
     class="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
     placeholder="Enter your email"
+    (blur)="onTouched()"
     required
   />
+  <div *ngIf="control.invalid" class="text-red-500 mt-1">
+    <small *ngIf="control.errors?.['required']">Email is required.</small>
+    <small *ngIf="control.errors?.['email']">Enter a valid email address.</small>
+  </div>
 </div>
 

@@ -35,7 +35,9 @@ export class CategoryAddComponent {
           this.router.navigate(['/task-list']);
         },
         (error) => {
-          console.error('Error creating category', error);
+          this.router.navigate(['/error'], {
+            queryParams: { message: 'Login is unsuccessful: ' + error.message },
+          });
         },
       );
     }
