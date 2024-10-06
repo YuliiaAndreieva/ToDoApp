@@ -6,6 +6,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { AddEditTaskComponent } from './components/add-edit-task/add-edit-task.component';
 import { TaskDetailsComponent } from './components/task-details/task-details.component';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
+import { CategoryAddComponent } from './components/category-add/category-add.component';
 
 export const routes: Routes = [
   {
@@ -39,6 +40,11 @@ export const routes: Routes = [
   {
     path: 'task-details/:id',
     component: TaskDetailsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'category-add',
+    component: CategoryAddComponent,
     canActivate: [AuthGuard],
   },
   {

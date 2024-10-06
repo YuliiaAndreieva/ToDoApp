@@ -33,7 +33,7 @@ public class CategoryRepository : ICategoryRepository
     public async Task<List<Category>> GetCategoriesAsync(string userId)
     {
        return await _context.Categories
-            .Where(c => c.Tasks.Any(t => t.UserId == userId))
+            .Where(c => c.UserId == userId)
             .ToListAsync();
     }
 }

@@ -33,7 +33,10 @@ public class CategoryService : ICategoryService
             return validationResult.ToErrorOr<CategoryDto>();
         }
         
-        var result = await _categoryRepository.AddCategoryAsync(categoryDto.ToEntity());
+        var category = categoryDto.ToEntity();
+        category.UserId = _currentUserService.UserId;
+
+        var result = await _categoryRepository.AddCategoryAsync(category);
         
         return result.IsError ? result.Errors : result.Value.ToDto();
     }

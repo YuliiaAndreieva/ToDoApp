@@ -31,9 +31,9 @@ public class DataSeeder
         
         var categories = new List<Category>
         {
-            new Category { Name = "Work" },
-            new Category { Name = "University" },
-            new Category { Name = "Languages" }
+            new Category { Name = "Work", UserId = user.Id },
+            new Category { Name = "University", UserId = user.Id },
+            new Category { Name = "Languages", UserId = user.Id }
         };
 
         _dbContext.Categories.AddRange(categories);
