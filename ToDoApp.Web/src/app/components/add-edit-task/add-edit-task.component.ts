@@ -13,6 +13,7 @@ import { CategorySelectorComponent } from '../category-selector/category-selecto
 import { CategoryModel } from '../../models/category/category.model';
 import { CategoryService } from '../../services/category.service';
 import { AddEditTaskModel } from '../../models/task/add-edit-task.model';
+import { CustomValidators } from '../../shared/custom-validators';
 
 @Component({
   selector: 'app-add-edit-task',
@@ -35,9 +36,12 @@ export class AddEditTaskComponent implements OnInit {
     private categoryService: CategoryService,
   ) {
     this.taskForm = this.fb.group({
-      name: ['', Validators.required],
-      description: [''],
-      dueDate: ['', Validators.required],
+      name: [
+        '',
+        [Validators.required, CustomValidators.nameLengthValidator(3, 100)],
+      ],
+      description: ['', Validators.max(300)],
+      dueDate: ['', [Validators.required, CustomValidators.dueDateValidator()]],
       isDone: [false],
     });
   }
