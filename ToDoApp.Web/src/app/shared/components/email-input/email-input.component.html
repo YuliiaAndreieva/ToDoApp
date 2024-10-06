@@ -10,7 +10,6 @@
     required
   />
   <div *ngIf="control.invalid" class="text-red-500 mt-1">
-    <small *ngIf="control.errors?.['required']">Email is required.</small>
     <small *ngIf="control.errors?.['email']">Enter a valid email address.</small>
   </div>
 </div>
