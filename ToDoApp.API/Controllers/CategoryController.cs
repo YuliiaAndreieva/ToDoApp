@@ -7,7 +7,7 @@ using ToDoApp.BLL.Services.Interfaces;
 namespace ToDoApp.API.Controllers;
 
 [ApiController]
-[Authorize]
+//[Authorize]
 public class CategoryController : Controller
 {
     private readonly ICategoryService _categoryService;

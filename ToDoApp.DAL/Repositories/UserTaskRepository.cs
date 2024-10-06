@@ -101,20 +101,16 @@ public class UserTaskRepository : IUserTaskRepository
         if (userTask is null)
             return Error.NotFound();
         
-        UpdateUserTaskProperties(userTask, updatedUserTask);
+        if (categoryIds is not null)
+        {
+            if (categoryIds.Count > 0)
+                return await UpdateTaskCategoriesAsync(userTask, categoryIds);
+            
+            if (userTask.Categories.Count > 0)
+                RemoveTaskCategoriesAsync(userTask, userTask.Categories);
+        }
 
-        if (categoryIds is not null && categoryIds.Count != 0)
-            return await UpdateTaskCategoriesAsync(userTask, categoryIds);
-        
-        try
-        {
-            await _context.SaveChangesAsync();
-            return userTask;
-        }
-        catch
-        {
-            return Error.Failure();
-        }
+        return await SaveChangesOrReturnAsync(userTask);
     }
     
     private async Task<ErrorOr<UserTask>> UpdateTaskCategoriesAsync(UserTask userTask, List<int> categoryIds)
@@ -124,11 +120,9 @@ public class UserTaskRepository : IUserTaskRepository
         var categoriesToRemove = userTask.Categories
             .Where(c => !categoryIds.Contains(c.Id))
             .ToList();
-        
-        foreach (var category in categoriesToRemove)
-        {
-            userTask.Categories.Remove(category);
-        }
+
+        if(categoriesToRemove.Any())
+            RemoveTaskCategoriesAsync(userTask, categoriesToRemove);
         
         var newCategoryIds = categoryIds
             .Where(id => !existingCategoryIds.Contains(id))
@@ -169,5 +163,20 @@ public class UserTaskRepository : IUserTaskRepository
         var totalCount = await query.CountAsync();
         
         return new PagedList<UserTask>(pagedTasks, page, pageSize, totalCount);
+    }
+
+    private ErrorOr<UserTask> RemoveTaskCategoriesAsync(
+        UserTask userTask,
+        List<Category>? categories)
+    {
+        try
+        {
+            userTask.Categories = userTask.Categories.Except(categories).ToList();
+            return userTask;
+        }
+        catch
+        {
+            return Error.Failure();
+        }
     }
 }
