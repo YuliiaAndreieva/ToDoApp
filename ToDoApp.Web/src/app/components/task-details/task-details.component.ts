@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { TaskService } from '../../services/task.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TaskModel } from '../../models/task/task.model';
-import { NgClass, NgForOf, NgIf } from '@angular/common';
+import { DatePipe, NgClass, NgForOf, NgIf } from '@angular/common';
 import { TaskDeleteComponent } from '../task-delete/task-delete.component';
 
 @Component({
   selector: 'app-task-details',
   standalone: true,
-  imports: [NgForOf, NgClass, TaskDeleteComponent, NgIf],
+  imports: [NgForOf, NgClass, TaskDeleteComponent, NgIf, DatePipe],
   templateUrl: './task-details.component.html',
 })
 export class TaskDetailsComponent implements OnInit {

@@ -12,7 +12,7 @@ public class BaseUserTaskDtoValidator : AbstractValidator<BaseUserTaskDto>
             .NotNull()
             .MinimumLength(3)
             .WithMessage("The name must be longer")
-            .MaximumLength(20)
+            .MaximumLength(100)
             .WithMessage("The name must be shorter ");
         
         RuleFor(c => c.DueDate)
@@ -25,7 +25,7 @@ public class BaseUserTaskDtoValidator : AbstractValidator<BaseUserTaskDto>
             RuleFor(us => us.Description)
                 .MinimumLength(3)
                 .WithMessage("The description must be longer")
-                .MaximumLength(150)
+                .MaximumLength(300)
                 .WithMessage("The description must be shorter ");;
         });
     }

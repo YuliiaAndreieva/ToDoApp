@@ -11,6 +11,7 @@ import { Router, RouterLink } from '@angular/router';
 import { ButtonComponent } from '../../shared/components/button/button.component';
 import { PasswordInputComponent } from '../../shared/components/password-input/password-input.component';
 import { EmailInputComponent } from '../../shared/components/email-input/email-input.component';
+import { log } from 'node:util';
 
 @Component({
   selector: 'app-login',
@@ -44,11 +45,13 @@ export class LoginComponent implements OnInit {
   onLogin(): void {
     if (this.loginForm.valid) {
       const loginData = this.loginForm.value;
+      console.log(loginData);
       this.authService.authenticate(loginData, false).subscribe(
         () => {
           this.router.navigate(['/task-list']);
         },
         (error) => {
+          console.log('ERRRor in service', error);
           this.router.navigate(['/error'], {
             queryParams: { message: 'Login is unsuccessful: ' + error.message },
           });

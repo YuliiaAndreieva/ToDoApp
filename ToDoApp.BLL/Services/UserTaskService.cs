@@ -17,7 +17,6 @@ public class UserTaskService : IUserTaskService
     private readonly ICurrentUserService _currentUserService;
     private readonly IValidator<CreateUserTaskDto> _createUserTaskValidator;
     private readonly IValidator<UpdateUserTaskDto> _updateUserTaskValidator;
-    private AndSpecification<UserTask> combinedSpecification;
 
     public UserTaskService(
         IUserTaskRepository taskRepository,

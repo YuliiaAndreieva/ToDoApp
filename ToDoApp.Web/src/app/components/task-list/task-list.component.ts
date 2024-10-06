@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { TaskModel } from '../../models/task/task.model';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TaskService } from '../../services/task.service';
-import { NgClass, NgForOf, NgIf } from '@angular/common';
+import { DatePipe, NgClass, NgForOf, NgIf } from '@angular/common';
 import { CategoryModel } from '../../models/category/category.model';
 import { CategoryService } from '../../services/category.service';
 import { PaginationComponent } from '../pagination/pagination.component';
 import { PaginationModel } from '../../models/pagination.model';
-import { Router, RouterLink } from '@angular/router';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { CategorySelectorComponent } from '../category-selector/category-selector.component';
 import { TaskDeleteComponent } from '../task-delete/task-delete.component';
 
@@ -24,6 +24,7 @@ import { TaskDeleteComponent } from '../task-delete/task-delete.component';
     RouterLink,
     CategorySelectorComponent,
     TaskDeleteComponent,
+    DatePipe,
   ],
   templateUrl: './task-list.component.html',
 })
@@ -83,6 +84,8 @@ export class TaskListComponent implements OnInit {
         totalPages: 1,
       };
     });
+    console.log(this.availableCategories);
+    console.log(this.tasks);
   }
 
   onSearchChange(): void {

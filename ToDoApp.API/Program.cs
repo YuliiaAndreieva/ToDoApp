@@ -22,12 +22,16 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     })
     .AddEntityFrameworkStores<ToDoAppDbContext>();
 
-var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
-builder.Services.AddCors(
-    o => o.AddDefaultPolicy(
-        pb => pb.WithOrigins(allowedOrigins)
-            .AllowAnyHeader()
-            .AllowAnyMethod()));
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowOrigins",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:5000", "http://localhost:4200")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
 
 var app = builder.Build();
 
@@ -37,8 +41,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-app.UseCors();
+var seeder = new DatabaseSeeder(app.Services);
+await seeder.SeedAsync();
+
+app.UseCors("AllowOrigins");
 app.UseAuthentication();
 app.UseAuthorization();
 

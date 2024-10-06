@@ -43,6 +43,7 @@ export class RegisterComponent implements OnInit {
 
   onRegister() {
     const registerData = this.registerForm.value;
+    console.log(registerData);
     this.authService.authenticate(registerData, true).subscribe(
       () => {
         this.router.navigate(['/task-list']);

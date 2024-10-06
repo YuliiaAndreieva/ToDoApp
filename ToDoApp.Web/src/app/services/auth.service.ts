@@ -1,7 +1,14 @@
 import { Injectable } from '@angular/core';
 import { API_URLS } from '../shared/api-endpoints';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, catchError, map, Observable, throwError } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  map,
+  Observable,
+  tap,
+  throwError,
+} from 'rxjs';
 import { UserAuthModel } from '../models/user/user.auth.model';
 
 @Injectable({
@@ -16,17 +23,16 @@ export class AuthService {
 
   authenticate(authData: UserAuthModel, isRegister: boolean): Observable<any> {
     const url = isRegister ? API_URLS.AUTH.REGISTER : API_URLS.AUTH.LOGIN;
-    return this.http.post(url, authData).pipe(
-      map((response: any) => {
+    return this.http.post<any>(url, authData).pipe(
+      tap((response) => {
         if (response.token) {
           localStorage.setItem('token', response.token);
           this.authenticatedSubject.next(true);
         }
-        return response;
       }),
       catchError((error) => {
         this.authenticatedSubject.next(false);
-        return throwError(error);
+        return throwError(() => new Error(error));
       }),
     );
   }

@@ -27,7 +27,7 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'task-create',
+    path: 'task-add',
     component: AddEditTaskComponent,
     canActivate: [AuthGuard],
   },
