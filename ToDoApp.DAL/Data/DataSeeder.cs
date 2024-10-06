@@ -48,7 +48,7 @@ public class DataSeeder
                 IsDone = false, 
                 Description = "i need to do 13 labs, for 1-3 lab deadline is over",
                 DueDate = DateTime.Now.AddDays(2),
-                Categories = new List<Category>() {categories.ElementAt(1)}
+                Categories = new List<Category>() { categories.ElementAt(1) }
             },
             new UserTask()
             {
@@ -57,7 +57,7 @@ public class DataSeeder
                 UserId = user.Id,
                 DueDate = DateTime.Now.AddDays(3),
                 Description = "lessons with Oleksandr, Gleb, Victoria. for lesson with Gleb i need to prepare a worksheet",
-                Categories = new List<Category>() {categories.ElementAt(0)}
+                Categories = new List<Category>() { categories.ElementAt(0) }
             },
             new UserTask()
             {
@@ -66,7 +66,7 @@ public class DataSeeder
                 UserId = user.Id,
                 DueDate = DateTime.Now.AddDays(4),
                 Description = "some drafts ive already created in canva",
-                Categories = new List<Category>() {categories.ElementAt(0)}
+                Categories = new List<Category>() { categories.ElementAt(0) }
             },
             new UserTask()
             {
@@ -75,7 +75,7 @@ public class DataSeeder
                 UserId = user.Id,
                 DueDate = DateTime.Now.AddDays(5),
                 Description = "ive done 1-2 labs, it's deadline for 3rd",
-                Categories = new List<Category>() {categories.ElementAt(1)}
+                Categories = new List<Category>() { categories.ElementAt(1) }
             },
             new UserTask()
             {
@@ -83,7 +83,11 @@ public class DataSeeder
                 UserId = user.Id,
                 IsDone = false, 
                 DueDate = DateTime.Now.AddDays(1),
-                Categories = new List<Category>() {categories.ElementAt(2)}
+                Categories = new List<Category>()
+                {
+                    categories.ElementAt(2), 
+                    categories.ElementAt(1)
+                }
             },
             new UserTask()
             {
@@ -92,7 +96,7 @@ public class DataSeeder
                 IsDone = false, 
                 DueDate = DateTime.Now.AddDays(2),
                 Description = "hurry up",
-                Categories = new List<Category>() {categories.ElementAt(2)}
+                Categories = new List<Category>() { categories.ElementAt(2) }
             },
             new UserTask()
             {
@@ -101,7 +105,12 @@ public class DataSeeder
                 IsDone = false, 
                 DueDate = DateTime.Now.AddDays(6),
                 Description = "hurry up its up to 2 days",
-                Categories = new List<Category>() {categories.ElementAt(2)}
+                Categories = new List<Category>() 
+                {
+                    categories.ElementAt(2), 
+                    categories.ElementAt(0)
+                    
+                }
             },
         };
         
